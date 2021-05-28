@@ -5,13 +5,11 @@ package kr.or.test;
  *
  */
 class MemberVO {
-	
 	// 이 클래스는 회원정보를 저장하는 자료형 클래스(자료) 입니다.
 	private String name;
 	private int age; 
 	private String phoneNum;
-	//위 프라이빗 멤버 변수를 입출력을 구현한 메서드를 만듭니다.
-	//오른쪽 마우스 - 소스 - 제너럴 겟팅 셋팅
+	//위 프라이빗 멤버 변수를 입출력을 구현한 메서드를 만듭니다.오른쪽 마우스 - 소스 - 제너럴 겟팅 셋팅
 	public String getName() {
 		return name;
 	}
@@ -50,7 +48,7 @@ public class Step2 {
 		memberVO3.setName("각시탈");
 		memberVO3.setAge(28);
 		memberVO3.setPhoneNum("222-2222-2222");
-		//MemberVO클래스 배열 객체로 생성했음(아래)
+		//MemberVO클래스를 배열 객체(String[]처럼)로 생성했음(아래)
 		MemberVO[] members = new MemberVO[3];
 		members[0] = memberVO;
 		members[1] = memberVO2;
@@ -58,12 +56,19 @@ public class Step2 {
 		//출력도 메서드를 바로 호출하지 않고, 외부클래스에서 메서드를 호출합니다.
 		MemberService memberService = new MemberService();
 		memberService.printMember(members);
+		//객체로 만들면, 호출(runtime)시 메모리에 로딩됩니다. -> 실행끝나면, 반환.
+		//클래스는 아래처럼 직접접근해서 메서드나 변수를 사용할 수 없음.
+		//외부클래스에서 접근하려면 객체(실행가능한=메모리로딩)
+		//static 예약어는 컴파일시 메모리에 로딩이 명시
+		//매번 static으로 만들면 메모리 가득차서 프로그램 실행이 느려지거나 멈춤 .
+//		MemberService.printMember(members);
+		memberService=null;
 	}
 }
 
 class MemberService {
 	
-	public void printMember(MemberVO[] members) {
+	public static void printMember(MemberVO[] members) {
 		//멤버서비스클래스에서 퍼블릿 접근제어로 회원정보를 출력하는 메서드 생성
 		// 향상된 for문을 사용합니다.
 		for(MemberVO member:members) {
