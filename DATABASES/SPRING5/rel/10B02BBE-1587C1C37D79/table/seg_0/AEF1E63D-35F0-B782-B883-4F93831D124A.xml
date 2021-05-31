@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="AEF1E63D-35F0-B782-B883-4F93831D124A" schemaObject="52BA07CB-75B6-7BA8-F118-12D03827D29D" name="TBL_MEMBER">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="AEF1E63D-35F0-B782-B883-4F93831D124A" name="TBL_MEMBER">
 <sourceConnName>XE</sourceConnName>
 <sourceObjSchema>XE</sourceObjSchema>
 <sourceObjName>TBL_MEMBER</sourceObjName>
