@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="10B7E46A-30BD-4FBA-D2A7-B433ED54BFAC" name="TML_BORD_TYPE">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 01:48:35 UTC</createdTime>
+<comment><![CDATA[
+]]></comment>
+<commentInRDBMS><![CDATA[게시판 생성관리(notice, gallery 등등)
+]]></commentInRDBMS>
+<ownerDesignName>SPRING5</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="BOARD_TYPE" id="6CDA5CB2-ECE9-193C-1DD1-4028E818B18B">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 02:16:09 UTC</createdTime>
+<commentInRDBMS><![CDATA[게시판타입(NOTCIE,GALLERY)
+]]></commentInRDBMS>
+<ownerDesignName>SPRING5</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2FA5D4E0-477C-DE08-6A78-E1F46D157820" name="TML_BORD_TYPE_PK">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 02:16:09 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6CDA5CB2-ECE9-193C-1DD1-4028E818B18B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
