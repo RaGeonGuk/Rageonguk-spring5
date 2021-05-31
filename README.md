@@ -1,6 +1,17 @@
 #### 20210531(월) 작업예정
+- RDBMS: RelationDataBaseManagementSystem(관계형데이터 베이스 관리 시스템)
+- 오라클: 테이블스페이스(TableSpace) = 스키마(Scheme:Mysql) = 데이터베이스(DB-MS-SQL) 
+- 지난주 금요일날, 오라클 웸용 관리프로그램에서 XE라는 테이블스페이스를 XE 사용자로 추가했음.
+- ERD(EntityRelationDiagram 객체관계그림): entity= 테이블
+- 데이터 모델: Model Object를 형상화 시킨것을 모델이라고함. 데이버테이스를 말함.
+- MVC 스프링 프로젝트에서 M이 Model이고, 스프링 프로젝트 구성중에 DB를 가리킴
+- V는 view이고 jsp를 말합니다.
+- C는 Controller이고 클래스를 말합니다.
+- 설치시 암호는apmsetup으로 동일합니다.
 - 4장 패키지와 예외처리 실습
 - 스프링프로젝트 ERD 제작 후 게시판 UI디자인 적용.
+
+-
 
 
 #### 20210528(금) 작업.
