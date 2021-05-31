@@ -10,6 +10,7 @@
 <connName>XE</connName>
 <connUser>XE</connUser>
 <connType>1</connType>
+<syncSelected>1</syncSelected>
 </importConnectionStamp>
 </importConnectionStamps>
 </relationalModel>
