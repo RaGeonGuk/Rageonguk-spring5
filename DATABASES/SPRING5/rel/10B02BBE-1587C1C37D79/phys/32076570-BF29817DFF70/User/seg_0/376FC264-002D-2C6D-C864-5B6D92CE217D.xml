@@ -1,0 +1,42 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<UserOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UserOraclev10g" name="XE" directorySegmentName="seg_0" id="376FC264-002D-2C6D-C864-5B6D92CE217D">
+<sourceConnName>XE</sourceConnName>
+<sourceObjName>XE</sourceObjName>
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:39:30 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<schemaObject>52BA07CB-75B6-7BA8-F118-12D03827D29D</schemaObject>
+<defTableSpace>339C697F-320C-C7BB-0864-E60CD4BF2278</defTableSpace>
+<privileges>CREATE DIMENSION, CREATE MATERIALIZED VIEW, CREATE SEQUENCE, CREATE PROCEDURE, CREATE ANY CONTEXT, CREATE TYPE, CREATE SYNONYM, CREATE SESSION, CREATE JOB, CREATE VIEW, CREATE TABLE, CREATE OPERATOR, CREATE INDEXTYPE, CREATE TRIGGER, CREATE CLUSTER</privileges>
+<quotaItems>
+<QuotaItem class="oracle.dbtools.crest.model.design.storage.oracle.v10g.QuotaItemOraclev10g" name="QuotaItem1" id="3605FD22-B8DB-A3E8-8457-289FD7D4A011">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:39:30 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</QuotaItem>
+<QuotaItem class="oracle.dbtools.crest.model.design.storage.oracle.v10g.QuotaItemOraclev10g" name="QuotaItem2" id="1A612B8A-2430-9F00-3688-0CCE982F25C3">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:39:37 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<tableSpace>339C697F-320C-C7BB-0864-E60CD4BF2278</tableSpace>
+</QuotaItem>
+<QuotaItem class="oracle.dbtools.crest.model.design.storage.oracle.v10g.QuotaItemOraclev10g" name="QuotaItem3" id="63CD7435-D71A-2407-06FF-BC3D2047330C">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:40:19 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<tableSpace>339C697F-320C-C7BB-0864-E60CD4BF2278</tableSpace>
+</QuotaItem>
+<QuotaItem class="oracle.dbtools.crest.model.design.storage.oracle.v10g.QuotaItemOraclev10g" name="QuotaItem4" id="D159D1A1-6D05-92A2-2450-74DD121792E6">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:40:25 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<tableSpace>339C697F-320C-C7BB-0864-E60CD4BF2278</tableSpace>
+</QuotaItem>
+<QuotaItem class="oracle.dbtools.crest.model.design.storage.oracle.v10g.QuotaItemOraclev10g" name="QuotaItem5" id="F38758DB-FB79-0689-7FBC-E360194C4535">
+<createdBy>User</createdBy>
+<createdTime>2021-05-31 06:40:30 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<tableSpace>339C697F-320C-C7BB-0864-E60CD4BF2278</tableSpace>
+</QuotaItem>
+</quotaItems>
+</UserOraclev10g>

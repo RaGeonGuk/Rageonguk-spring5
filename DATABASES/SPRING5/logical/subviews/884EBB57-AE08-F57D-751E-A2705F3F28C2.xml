@@ -1,8 +1,8 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Diagram class="oracle.dbtools.crest.swingui.relational.DPVRelational" name="SPRING5" id="94A33B95-BEF4-34A8-E972-669791EDC218">
+<Diagram class="oracle.dbtools.crest.swingui.logical.DPVLogical" name="Logical" id="884EBB57-AE08-F57D-751E-A2705F3F28C2">
 <createdBy>User</createdBy>
 <modifiedBy>User</modifiedBy>
-<createdTime>2021-05-31 01:39:00 UTC</createdTime>
+<createdTime>2021-05-31 06:43:01 UTC</createdTime>
 <autoRoute>false</autoRoute>
 <boxInbox>true</boxInbox>
 <showLegend>false</showLegend>
@@ -13,5 +13,4 @@
 <diagramColor>-1</diagramColor>
 <display>false</display>
 <notation>1</notation>
-<showComments>true</showComments>
 </Diagram>
