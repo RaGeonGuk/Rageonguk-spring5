@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- 페이지 언어설정: Unicode Type Format  8비트약자 -->
+    <!-- 다국어 지원 사이트에서 필수 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- viewport 없으면 반응형이 안됨. -->
+    <title>CSS 실습</title>
+    <!-- 나눔고딕 외부 글꼴 사용하기 -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
+<!-- 같은 파일안에 저장해서 사용하는 방법  -->
+<link rel="stylesheet" href="./style.css">
+<!-- 유지 보수할때는 <style> 이걸씀 -->
+<style>
+    /* 03 선택자 종류 사용
+        범용선택자: * (별표:애스터리스크)
+        태그선택자: h1, h2, p, div, header, footer, article 등
+        class 선택자: .class 이름, 특징: 중복사용 가능
+        id 선택자: #id이름, 특징: 중복사용하면 오작동됨.
+        가상선택자: ::after ::before, ::before 등 (::이 두개 들어감)
+        가상선택자 ::를 한개 쳐도 일단 입력됨.
+        가상요소(Element-태그): :hover :invalid 등 사용예 a:hover (:이 한개 들어감)
+        가상요소는 진짜는 아니지만 가상으로 만드는것.
+        */
+    h1 { background-color: skyblue;}
+        /*  "*" 별표(애스터리스크)는 바디태그 안에 많이 쓰임 */
+    /* div *  {      color: green;    } */
+    .box-one, .box-two {background-color: tomato;}
+    #box-four, #box-five {background-color: yellow;}
+    /* .부터 시작하는건 class 선택자
+    #으로 되어있는건 ID 선택자임 */
+    .box-one p:after {content: ' +addadd'; }
+    .box-one p::before {content: 'add+ '; }
+    a:hover {color: white;}
+    .box-one {
+        font-size: 8px;
+        /* font-size: 1.5em;  */
+        /* 웹 브라우저 기본 폰트크기는 16px - 1em   */
+        /* font-size: 1.5rem; */
+         }
+    .box-one p {
+        /* 웹브라우저 기본폰트인 16px의 1.5배가 아니고, 부모 요소의 1.5배(8px의 1.5배) */
+        font-size: 1.5em;
+        font-size: 1.5rem;
+        /* 위에서부터 해석하는 방식을 인터프터형=자바스크립트 인터프리터형 언어*/
+
+    }
+    /* 크기단위 font크기, img 크기 단위종류 3가지 ~px, em(1.2배수), rem(root 기반 배수) */
+    .box-one {
+        width: 200px;
+        height: 200px;
+        background-color: green;
+        padding:  20px; /* 바깥 여백 */
+        /*바깥쪽 여백: 4가지 방향 12시부터 시계방향으로 이동.(위, 오른쪽, 밑, 왼쪽) */
+        margin: 20px 10px 50px 80px;
+        /* 바깥여백: 2가지 방향 상하 / 좌우 */
+        margin: 30px 60px; /* 30 상하, 60 좌우 */
+        border: 10px solid black;
+        box-sizing: border-box;
+        /* 필수!!!!!! "box-sizing 으로 사이즈 고정시키는것" */
+        /* 가로 가운데 정렬하는 방법 */
+        margin: 0px;
+        margin: 0px auto;
+        /* 0 상하, auto 좌우 */
+        margin: 0px;
+        position: fixed;
+        /* 기본이 relative 앱솔루트 사용시 자리가 다른 태그와 관련없는 위치 가짐(절대위치) fixed는 화면 내려도 움직임(붙박이, 고정위치) */
+        margin-top: 20px;
+        margin-left: 20px;
+        /* position: relative; */
+        
+    }
+    .box-two {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        box-sizing: border-box; /* 필수!!! */
+    }
+</style>
+</head>
+<body>
+    <h1>헬로 CSS</h1>
+     <div class="box-one"><p style="color: white;">
+        <a href="#">상단으로 이동</a></p></div>
+     <div class="box-two"><a href="#">two two two</a></div>
+     <div class="box-three">three</div>
+     <div id="box-four">four</div>
+     <div id="box-five">five</div>
+    <!--         
+        10 크롬 확장프로그램으로 컬러 피커 사용해보기 ok
+        09 구글 폰트 사용하기: 나눔고딕체 사용 ok
+        08 위치: 고정, 절대위치, 상대위치(기준) 
+        07 정렬: 가로 가운데정렬
+        06 테두리크기: 여백(안쪽 패딩, 바깥쪽 마진)
+        05 박스크기: 박스크기에 테두리크기,패딩크기 무시
+        04 크기 단위: px, em(부모영역의 2배), rem(루트영역의 2배)
+        03 선택자 종류 사용
+    
+        02 CSS용어 설명: h${헬로 CSS}*6
+        Cascade Style Sheet 계층형 스타일 표
+        p > (style > 이런식?)*6
+        계단형 영역선택
+        경로 (Paht: 상대경로, 절대경로)
+        01 css 적용하는 3가지 방법 확인, 내부css, 외부css, 인라인css ok
+     -->
+     
+
+     <!-- 인라인 CSS 글 사이에 span + style 사용해서 변경 -->
+     <p> <span style="color: tomato;">Lorem ipsum</span> dolor sit amet consectetur adipisicing elit. Voluptate soluta, asperiores quidem nesciunt maiores reiciendis modi sed, nihil praesentium obcaecati vero dolorum minima? Cupiditate, optio nisi. Incidunt aut quisquam numquam, placeat, pariatur, autem commodi nulla totam in dolore neque explicabo velit consequatur. Esse rem atque consectetur sunt voluptatem, ipsa vero ea, nesciunt debitis cupiditate pariatur doloribus dolorem aliquid praesentium voluptatibus hic quod dolor voluptas. Dignissimos aut praesentium animi aperiam numquam quam corrupti magnam. Quae, quasi eius. Cupiditate porro facilis eum deserunt delectus quidem reiciendis saepe quasi rem excepturi cum ratione veritatis alias repudiandae tempora dignissimos incidunt, assumenda tempore maxime voluptate!</p>
+     <p> <span style="color: tomato;">Lorem ipsum</span> dolor sit amet consectetur adipisicing elit. Voluptate soluta, asperiores quidem nesciunt maiores reiciendis modi sed, nihil praesentium obcaecati vero dolorum minima? Cupiditate, optio nisi. Incidunt aut quisquam numquam, placeat, pariatur, autem commodi nulla totam in dolore neque explicabo velit consequatur. Esse rem atque consectetur sunt voluptatem, ipsa vero ea, nesciunt debitis cupiditate pariatur doloribus dolorem aliquid praesentium voluptatibus hic quod dolor voluptas. Dignissimos aut praesentium animi aperiam numquam quam corrupti magnam. Quae, quasi eius. Cupiditate porro facilis eum deserunt delectus quidem reiciendis saepe quasi rem excepturi cum ratione veritatis alias repudiandae tempora dignissimos incidunt, assumenda tempore maxime voluptate!</p>
+     <p> <span style="color: tomato;">Lorem ipsum</span> dolor sit amet consectetur adipisicing elit. Voluptate soluta, asperiores quidem nesciunt maiores reiciendis modi sed, nihil praesentium obcaecati vero dolorum minima? Cupiditate, optio nisi. Incidunt aut quisquam numquam, placeat, pariatur, autem commodi nulla totam in dolore neque explicabo velit consequatur. Esse rem atque consectetur sunt voluptatem, ipsa vero ea, nesciunt debitis cupiditate pariatur doloribus dolorem aliquid praesentium voluptatibus hic quod dolor voluptas. Dignissimos aut praesentium animi aperiam numquam quam corrupti magnam. Quae, quasi eius. Cupiditate porro facilis eum deserunt delectus quidem reiciendis saepe quasi rem excepturi cum ratione veritatis alias repudiandae tempora dignissimos incidunt, assumenda tempore maxime voluptate!</p>
+
+</body>
+</html>
