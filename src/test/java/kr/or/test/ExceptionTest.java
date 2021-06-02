@@ -32,9 +32,9 @@ public class ExceptionTest {
 				
 				System.out.println(cnt + "번째 숫자형태가 올바르지 않습니다. 확인해주세요!");
 				System.out.println("에러내용은: " + ex.toString());
-			} catch(Exception ex ) {
+			} catch(ArrayIndexOutOfBoundsException ex ) {
 				System.out.println(ex.toString());
-				System.out.println("배열의 크기가 올바르지 않습니다.");
+				System.out.println("에러내용은 배열의 크기가 올바르지 않습니다.");
 			} finally {
 				System.out.println(cnt + "번째 프로그램이 실행 되었습니다.");
 			}
