@@ -34,7 +34,10 @@ public class HomeController {
 		model.addAttribute("jspObject", jspVar);
 		logger.info("디버그 스프링 로고 사용:  " + jspVar); //System.out 대신 logger 객체를 사용
 		//home.jsp 파일로 자료를 전송하는 기능: model객체 인터페이스 객체(스프링이처리)에 내용만 채우면됨
-		return "home"; //확장자가 생략 . jsp가 생략되어 있음.
+		return "home/index"; //확장자가 생략 . jsp가 생략되어 있음.
 	}
 	
 }
+
+
+

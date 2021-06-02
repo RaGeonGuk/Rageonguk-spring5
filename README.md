@@ -5,10 +5,27 @@
 - 2달째부터, 주로 스프링으로 실습이 진행.(납품용-이력서포트폴리오용)
 - VS code 에서 만든 UI를 JSP로 변경 후 스프링웹 프로젝트를 진행합니다.
 
-#### 20210602(수) 작업예정
-- views/home/index.jsp 엑박처리 후 분해 (header.jsp, footer.jsp, index.jsp)
-- 오후
-- admin 폴더 만든 이후 분해 처리예정
+#### 20210603(목) 작업예정
+- JUnit테스트: 오라클 연동한 후 회원관리부분 CRUD 테스트 진행예정
+- Admin 부터 
+
+
+#### 20210602(수) 작업
+- Controller클래스 + home/index.jsp(화면) 한쌍입니다.
+그래서, 큰트롤러클래스 만든 변수를 index.jsp에서 사용 가능하게 됩니다. 
+- 안드로이드앱 = 액티비티(java) + 레이아웃(xml)화면 한쌍
+- C#닷넷 = test.aspx.cs(프로그램) + test.aspx(화면) 한쌍
+- 일반 홈페이지 (cafe24)-URL 직접접근이 가능(보안위험높음)
+- MVC웹프로그램 차이점-URL 직접접근이 가능X(보안위험낮음) -관공서, 대학, 은행 주사용
+- MVC 프로젝트에도 직접접근이 가능한 resources 폴더 직접접근이 가능 - static 콘텐츠(html,css,js)를 모아 놓은 폴더.views폴더 jsp는 직접 접근이 불가능
+- Views 폴더처럼 직접접근이 불가능한 컨텐츠는 Controller로 접근하게 됨
+- views/home/index.jsp 엑박처리 후 분해 (header.jsp, footer.jsp, index.jsp)는 관리잔 실습 후 작업
+- 개발순서 ERD제작 -> html 제작 ->jsp제작(현재:관리자단 10기능 작업 후 사용자단 5기능)
+- admin 폴더 만든 이후 분해 . Junit 실습 후 작업합니다.
+- Junit(Java Unit Test): 자바 단위 테스트(서비스 프로그램 만들기 전 프로토 타입 시제품 제작) - Junit CRUD 작업 후 본격작업시작.
+- 로거의 레벨: DEBUG > INFO > WARN > ERROR > FATAL
+- 개발할때: DEBUG 로거레벨을 설정
+- 납품할때: WARM 으로 로거레벨을 변경
 - admin 부터 프로그램 작업 시작예정
 - 4장 패키지와 예외처리 실습
 
