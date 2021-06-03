@@ -78,4 +78,26 @@ SELECT DISTINCT deptno as "부서번호" FROM emp;
 SELECT ename || 'is a'|| job AS "문자열 연결" FROM emp;
 
 --여기까지 SELECT 마무리 Read
--- 이후에는 CRUD 중에 Isert, Update, Delete
+-- 이후에는 CRUD 중에 Isert, Update, Delete 3개의 쿼리로 끝
+
+-- 함수용어 ABS (Absolute 절대값), Floor(바닥함수 1.5=1)-Ceil (천정함수 1.5=2)
+-- ROUND(반올림), TRUNC(Truncate 버리는 함수), Mod(나머지 구하는 함수)
+-- UPPER(소문자->대문자), Lower(대문자->소문자),length(길이구하는 함수)
+-- INSTR (문자 위치를 구하는 함수), SUBSTR(매개변수로 입력한 숫자 위치만큼 문자열 추출)
+-- LPAD(LeftPadding왼쪽여백),  RPAD(오른쪽여백), 레포트 프로그램에서 출력조정시 사용
+-- TRIM(왼쪽 or 오른쪽 문자열을 잘라내는 함수)
+-- 날짜 SYSDATE,systimestamp 로 오라클전용 함수로서 게시물 입력 시간, 회원등록시간, 
+SELECT to_char (systimestamp,'yyyy-mm-dd hh24:mi:ss:ff') from dual;
+-- 위 to char(날짜를 문자열로 변환) 형 변환 함수라고 합니다.
+SELECT sysdate + 1 FROM dual;
+SELECT sysdate - 1 FROM dual;
+-- 6개월간 회원정보 수정이 없는 회원에게 메일 발송 같은 서비스를 처리 하는 용도(아래)
+SELECT * FROM
+TBL_MEMBER
+WHERE UPDATE_DATE < ADD_MONTHS(SYSDATE,-6);
+
+
+
+
+
+
