@@ -48,10 +48,17 @@ SELECT nvl(comm,0), E.* FROM emp E WHERE NVL(comm,0) = 0;
 -- 오라클은 표준 쿼리X ANSI 쿼리가 표준입니다.
 
 -- NVL2 (필드명, 널이아닐때 100, 널일때 0), NVL(필드명, 널일때 0)
-널이 아니면 0을 넣고 널이면 100을 넣어라
+-- 널이 아니면 0을 넣고 널이면 100을 넣어라
 SELECT nvl2(comm,100,0), E.* FROM emp E WHERE NVL(comm,0) = 0;
 -- DECODE는 NVL2와 비슷하지만 직관적이라 더 사용함 DECODE(comm,null,일때 '0',아닐때 'comm')
-SELECT DECODE(comm,null,0,comm), nvl2(comm,100,0), E.* FROM emp E WHERE NVL(comm,0) = 0;
+SELECT
+CASE WHEN comm is null THEN 0
+WHEN comm = 0 THEN 100
+WHEN comm > 0 THEN comm
+END AS "CASE출력문"
+,DECODE(comm,null,0,100)
+, nvl2(comm,100,0)
+, E.* FROM emp E WHERE NVL(comm,0) = 0;
 
 -- 정렬 sort = 순서 order by 필드명 오름차순[초기값]ascending | 내림차순desending
 -- 연봉 기준으로 정렬 해주세요.
@@ -95,6 +102,7 @@ SELECT sysdate - 1 FROM dual;
 SELECT * FROM
 TBL_MEMBER
 WHERE UPDATE_DATE < ADD_MONTHS(SYSDATE,-6);
+
 
 
 
