@@ -58,7 +58,7 @@ WHEN comm > 0 THEN comm
 END AS "CASE출력문"
 ,DECODE(comm,null,0,100)
 , nvl2(comm,100,0)
-, E.* FROM emp E WHERE NVL(comm,0) = 0;
+, E.* FROM emp E; -- WHERE NVL(comm,0) = 0;
 
 -- 정렬 sort = 순서 order by 필드명 오름차순[초기값]ascending | 내림차순desending
 -- 연봉 기준으로 정렬 해주세요.
