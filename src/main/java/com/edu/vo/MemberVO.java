@@ -1,4 +1,7 @@
 package com.edu.vo;
+
+import java.util.Date;
+
 /**
  * 이클래스는 DB에서 Model 클래스로 입출력, Model에서 Service 클래스로 입출력
  * Service에서 Controller클래스 데이터를 입출력,
@@ -6,7 +9,7 @@ package com.edu.vo;
  * @author 라건국
  *
  */
-public class MemberVo {
+public class MemberVO {
 	//ERD를 보고 멤버변수를 만듭니다.
 	private String user_id;
 	private String user_pw;
@@ -17,7 +20,7 @@ public class MemberVo {
 	private String levels; 
 	private Date reg_date;
 	private Date update_date;
-	//책에서는 롬복loombok.jar 을 사용해서 아래 내용을 생략가능합니다.
+	//책에서는 롬복lombok.jar 을 사용해서 아래 내용을 생략가능합니다.
 	// 우리는 Get/Set을 만들어서 사용합니다.
 	public String getUser_id() {
 		return user_id;
