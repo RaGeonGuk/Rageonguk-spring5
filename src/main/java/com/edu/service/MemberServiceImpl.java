@@ -32,4 +32,14 @@ public class MemberServiceImpl implements IF_MemberService {
 		// 인젝션으로 주입받은 DAO 객체를 사용(아래)
 		return memberDAO.countMember();
 	}
+	@Override
+	public void insertMember(MemberVO memberVO) throws Exception {
+		//클래스 상단에서 인젝션으로 주입받는 DAO객채를 사용(아래)
+		memberDAO.insertMember(memberVO);
+	}
+	@Override
+	public void deleteMember(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		memberDAO.deleteMember(user_id);
+	}
 }
