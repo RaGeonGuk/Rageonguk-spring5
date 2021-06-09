@@ -8,13 +8,39 @@ memberMapper.selectMember
 -->
 
 <mapper namespace="memberMapper">
+<!-- 공통쿼리 마이바티스 include 문사용 -->
+<sql id="sqlWhere">
+		<if test ="search_type != '' and search_type !=null">
+        WHERE
+	        <if test ="search_type == 'all'.toString()">
+		        	user_id LIKE '%'||#{search_keyword}||'%' 
+		        	OR user_name LIKE '%'||#{search_keyword}||'%'
+	        </if>
+	        <if test ="search_type == 'user_id'.toString()">
+		        	user_id LIKE '%'||#{search_keyword}||'%' 
+	        </if>
+	        <if test ="search_type == 'user_name'.toString()">
+		        	user_name LIKE '%'||#{search_keyword}||'%'
+	        </if>
+		</if>
+</sql>
 <select id="countMember" resultType="int">
 select count(*) from tbl_member
 </select>
 <!-- 무조건 조회 쿼리 -->
 <select id="selectMember" resultType="com.edu.vo.MemberVO">
-select * from tbl_member
-where user_id = #{search_keyword}
+SELECT TableB. * FROM
+(
+    SELECT ROWNUM AS RNUM, TableA. * FROM
+    (
+        SELECT * FROM tbl_member
+        <include refid="sqlWhere" />
+      	ORDER BY reg_date DESC
+	) TableA
+<![CDATA[ 
+	WHERE ROWNUM <=(#{queryStartNo}*#{queryPerPageNum}) + #{queryPerPageNum}
+	)TableB WHERE TableB.RNUM > #{queryStartNo} * #{queryPerPageNum}
+]]>
 </select>
 
 </mapper>
