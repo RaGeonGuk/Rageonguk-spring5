@@ -19,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.edu.service.IF_MemberService;
 import com.edu.vo.MemberVO;
+import com.edu.vo.PageVO;
 /**
  * 이 클래스는 오라클과 연동해서 CRUD를 테스트 하는 클래스입니다.
  * 과장(이사,팀장) JUnit CRUD 까지 만들어서 일반사원에게 공개
@@ -50,7 +51,20 @@ public class DataSourceTest {
 		// 변수를 2-3이상은 바로 String 변수로 처리하지 않고, VO만들어 사용.
 		// PageVO.java클래스를 만들어서 페이징처리 변수와 검색어 변수선언, Get/Set 생성
 		// pageVO만들기전 SQL쿼리로  가상으로 페이지를 한번 구현해 보면서, 필요한 변수를 만들어야 합니다.
-		List<MemberVO> listMember = memberService.selectMember();
+		// pageVO객체를 만들어서 가상으로 초기값을 입력합니다.
+		PageVO pageVO = new PageVO();
+		
+		pageVO.setPage(1); // 기본값으로 1페이지를 입력합니다.
+		pageVO.setPerPageNum(10); // UI하단의 페이지 개수
+		pageVO.setQueryPerPageNum(10); //리에서 페이지당 개수
+		pageVO.setTotalCount(memberService.countMember());//테스트 하려고, 100명을 입력합니다.
+		pageVO.setSearch_keyword("admin");
+		//위 위치가 다른 설정보다 상단이면, 에러발생 왜냐하면, calcPage()가 실행되는데, 실행시 위 3가지 변수값이 지정되 있어야지 계산 메서드가 정상작동되기때문입니다.
+		//위 토탈카운트 변수값은 startPage, endPage 계산에 필수입니다.
+		//매퍼쿼리_DAO클래스_Service클래스_JUnit(나중엔 컨트롤러에서 작업) 이제 역순으로 작업진행
+		//더 진행하기 전에 현재 pageVO객체에는 어떤 값이 들어 있는지 확인하고 사용하겠습니다.(아래)
+		logger.info("디버그:"+pageVO.toString());
+		List<MemberVO> listMember = memberService.selectMember(pageVO);
 		listMember.toString();
 	}
 	
