@@ -42,6 +42,7 @@ public class PageVO {
 	public int getQueryPerPageNum() {
 		return queryPerPageNum;
 	}
+	
 	public void setQueryPerPageNum(int queryPerPageNum) {
 		this.queryPerPageNum = queryPerPageNum;
 	}

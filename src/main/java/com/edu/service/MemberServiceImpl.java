@@ -42,4 +42,16 @@ public class MemberServiceImpl implements IF_MemberService {
 		// TODO Auto-generated method stub
 		memberDAO.deleteMember(user_id);
 	}
+	@Override
+	public MemberVO readMember(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return memberDAO.readMember(user_id);
+	}
+	@Override
+	public void updateMember(MemberVO memberOne) throws Exception {
+		// DAO 호출(아래)
+		memberDAO.updateMember(memberOne);		
+	}
+	
+	
 }

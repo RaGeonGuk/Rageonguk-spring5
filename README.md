@@ -8,14 +8,44 @@
 - 피곤할 때, 오라클DB(SQL 디벨러퍼 개발환경) Ansi-SQL(표준SQL)기본언어실습진행 CRUD.
 - 2달째부터, 주로 스프링으로 실습이 진행.(납품용-이력서포트폴리오용)
 - VS code 에서 만든 UI를 JSP로 변경 후 스프링웹 프로젝트를 진행합니다.
+- 헤로쿠 클라우드에 배포할때, 메퍼폴더의 mysql 폴더내의 now() daete.
+
+#### 20210610(목)작업예정
+- 컨트롤러를 이용해서 관리자단 회원관리 화면 JSP만들기 진행시작
+- JUnit 마치고, 관리자단 회원관리(CRUD) jsp까지는 작업합니다. 이후 앞에 내용 참조해서 ㅁ
+- 수업전 내용 확인 합니다.(아래)
+- 쿼리실습에서 .equals함수 사용에 대해서 설명할때,아래 isEmpty메서드와 착각해서 이야기 한 내용이 있어서 정정 합니다.
+- 자바에서 객체가 공백 또는 비었는지 비교할때, 예를 들면, 우리프로젝트에서 첨부파일이 있는지 비교할때 아래 처럼 사용하지 않고
+- if(save_file_name != null && "".equals(save_file_name))
+- 다음처럼 짧게(널과공백체크를 한번에) 사용합니다.(아래)
+- if(!save_file_name.isEmpty()) // 게시판 첨부파일 체크시 사용
+=========================================
+- GTM시간(그리니치 천문대 기준시-표준시) 한국시간과는 9시간 차이남
+- DB서버에 타임존설정Asia/Seoul로 되어있으면 그냥 사용.
+- 만약 위 GTM+9 9시간해서 Insert,Update 한국시간으로 사용.
+- JUnit에서 회원관리 나머지 Read,Update 테스트 진행예정.
+SELECT TO_CHAR(systimestamp + numtodsinterval( 9, 'HOUR' ), 'YYYY-MM-DD HH24:MI.SS.FF4')  from dual;
+-Mysql(마리아dB)확인 :
+SELECT DATE_ADD(NOW(3), INTERVAL 9 HOUR); 
+- -----------------------------------------
+- 업데이트 실습은 회원암호를 스프링시큐리티5 암호화(1234->해시데이터)로 일괄변경 실습예정.
+- 정방향 암호화만 가능, 역방향 복호화는 불가능(JAVA용 스프링시큐리티 암호화, DB용 MD5 등등)
+
+
+```
+BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+String userPwEncoder = passwordEncoder.encode(memberVO.getUser_pw());
+memberVO.setUser_pw(userPwEncoder);
+```
+컨트롤러를 이용해서 관리자단 회원관리화면 JSP 만들기 진행예정.
 
 #### 20210609(수)작업예정
-- 프로젝트를 진행: 보유기술70% + 신기술 30%(개발사도 모릅니다.) 9할은 성공
-
-
-
-- <!{CDATA[쿼리]]>: 태그 안쪽에 부등호를 사용하기 위해서 문자열 변환 태그를 사용.
-- 쿼리에서 변수와 문자열과의 연결할때는 +(자바)X, ,(x), || (o)
+- 프로젝트를 진행: 보유기술 70%(솔루션있는업체) + 신기술 30%(개발사도 모릅니다) - 9할 성공
+- PageVO.java 클래스 생성 마무리OK.
+- JUnit에서 위 작업한 내용을 기준으로 selectMember() 테스트 진행OK.(검색,페이징)
+- : 태그 안쪽에 부등호를 사용하기 위해서 문자열 변환 태그를 사용.
+- 쿼리에서 변수와 문자열과의 연결할때는 +(자바)X, ,(X), ||(O)
+- JUnit에서 회원관리 나머지 CRUD 테스트중 Create, Delete진행OK.
 
 
 #### 20210608(화)
