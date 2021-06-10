@@ -68,7 +68,7 @@ public class DataSourceTest {
 		PageVO pageVO = new PageVO();		
 		pageVO.setPage(1); // 기본값으로 1페이지를 입력합니다.
 		pageVO.setPerPageNum(10); // UI하단의 페이지 개수
-		pageVO.setQueryPerPageNum(1000); //리에서 페이지당 개수
+		pageVO.setQueryPerPageNum(1000); //쿼리에서 페이지당 개수
 		//MemberVO타입을 가진 리스트형 객체 List<MemberVO>
 		List<MemberVO> listMember = memberService.selectMember(pageVO);
 		//향상된 for반복문(memberOne:listMember) {구현내용}

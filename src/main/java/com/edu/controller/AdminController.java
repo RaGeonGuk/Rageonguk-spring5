@@ -41,9 +41,11 @@ public class AdminController {
 		}
 		//pageVO의 calcPage메서드를 실행하려면, 필수 변수값 입력(아래)
 		pageVO.setQueryPerPageNum(10);
-		logger.info("디버그" + pageVO.toString());
+		pageVO.setPerPageNum(10);//하단 UI에 보여줄 페이지 개수
+		pageVO.setTotalCount(memberService.countMember(pageVO));//검색된 결과의 전체카운트값
 		List<MemberVO> listMember = memberService.selectMember(pageVO);
-		pageVO.setTotalCount(listMember.size());
+		logger.info("디버그" + pageVO.toString());// 지금까지 jsp->컨트롤러 일방향 자료 이동.
+		//컨트롤러에서 jsp로 역방향으로 보내는 자료를 Model에 담아서 보내게 됩니다.
 		return "admin/member/member_list"; //jsp파일 상대경로;
 	}
 	// URL요청 경로는 @RequestMappingt 반드시 절대경로로 표시
