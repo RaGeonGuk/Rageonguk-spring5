@@ -25,6 +25,31 @@
 - ======== 2주간 작업내역 끝(07.16금) ===================
 - 헤로쿠 클라우드에 배포할때, 매퍼폴더의 mysql폴더내의 쿼리에 now()를 date_add(now(3), interval 9 HOUR) 변경예정.(이유는 DB서버 타임존 미국이기 때문에)
 
+####20210615(화) 작업예정
+- 관리자단 회원관리 수정 암호  수정 잘 되는지 확인예정.
+- 나머지 관리자 회원관리 CRUD 화면 JSP구현 update, delete, insert // 인서트 마무리해야함
+
+
+
+
+####20210614(월) 작업.
+- 수업 전 관리자 회원관리 view 화면 구현 마무리.
+- multipart(첨부파일 기능)라는 폼태그 전송방식을 추가 -> commos.fileupload 외부모듈 필수(pom.xml에서 의존성을 추가합니다.)
+- 위 외부모듈을 스프링 빈으로 등록합니다. (servlet - context.xml 하단에 추가)
+- CRUD 에서 multipart를 사용한다면, 리졸브(resolve-해석기) 스프링빈이 필요
+
+```
+<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</beans:bean>
+```
+- 데이터 변수를 전송할때 GET (URL쿼리스트링)으로 전송받으면, 타 도메인에서도 GET으로 접근이 가능합니다.
+- 쉽게 말하면, 다른 도메인(서버)에서 GET은 검색만 가능, 입력/수정/삭제 불가능
+- 단, 데이터 변수를 PSDT(숨김)으로 전송 받으면, 타 도메인에서는 접근이 불가능합니다.
+- 쉽게 말하면, 같은 도메인(서버)에서만  POST로는 입력/수정/삭제 가 가능
+- 나머지 관리자 회원관리 CRUD 화면 JSP구현 update, delete, insert
+- [공지] 06-17 목요일 (4교시) UI 디자인 시험있습니다. (화면기획서 XLS 제작, 화면설계서 PPT 제출용)
+- 관리자 게시판 생성관리 CRUD 정방향 방식으로 JSP 구현
+
 #### 20210611(금) 작업예정.
 - 수업전 관리자단 회원관리 페이징처리에서 컨트롤러와 calcPage()메서드의 관계 간단하게 확인하겠습니다.
 - JSTL: Java Standard Tag Library 자바표준태그모듈로서 JSP에서 자바를 사용하는 표준.
