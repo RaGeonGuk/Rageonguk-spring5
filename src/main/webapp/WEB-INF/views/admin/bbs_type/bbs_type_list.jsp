@@ -62,7 +62,7 @@
        
        <!-- 페이징 처리 -->
         <div class="col-12 text-right">
-          <a href="board_write.html" class="btn btn-primary mb-3">게시판 생성</a>
+          <a href="/admin/bbs_type/bbs_type_insert" class="btn btn-primary mb-3">게시판 생성</a>
           <!-- <button class="btn btn-primary">글쓰기</button> -->
         
         </div>

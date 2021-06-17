@@ -43,13 +43,14 @@ public class AdminController {
 	//왜 board_type으로 안하고, bbs_type하는 이유는 왼쪽 메뉴 고정시키는 로직에서 경로 board와 겹치지 않도록
 	@RequestMapping(value = "/admin/bbs_type/bbs_type_list", method = RequestMethod.GET)
 	public String selectBoardTypeList(Model model) throws Exception {//목록 폼 1
-		model.addAttribute("listBoardTypeVO", boardTypeService.selectBoardType());
+		//아래 모델은 AOP 기능중 ControllerAdvice 인터페이스로 구현했기 때문에 아래는 주석처리
+		//model.addAttribute("listBoardTypeVO", boardTypeService.selectBoardType());
 		return "admin/bbs_type/bbs_type_list"; //상대경로일때는 views폴더가 root(최상위)
 	}
 	//bbs_type_list.jsp에서 게시판 생성 버튼을 클릭했을때 이동하는 폼 경로
 	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method = RequestMethod.GET)
 	public String insertBoardTypeForm() throws Exception {//입력 폼 1
-		return "admin/bbs_type_bbs_type_insert";//jsp생략
+		return "admin/bbs_type/bbs_type_insert";//jsp생략
 	}
 	//bbs_type_insert.jsp의 입력폼에서 전송된 값이  boardTypeVO 자동으로 담겨서 {구현} 단, 자동으로 값이 바인딩되려면 , 폼의 name과, VO멤버변수명과 동일
 	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method = RequestMethod.POST)
