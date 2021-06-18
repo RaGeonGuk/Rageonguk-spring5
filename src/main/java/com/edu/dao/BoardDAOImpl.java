@@ -2,9 +2,12 @@ package com.edu.dao;
 
 import java.util.List;
 
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.edu.vo.AttachVO;
@@ -18,6 +21,7 @@ import com.edu.vo.PageVO;
  */
 @Repository
 public class BoardDAOImpl implements IF_BoardDAO {
+	private Logger logger = LoggerFactory.getLogger(BoardDAOImpl.class);
 	@Inject
 	private SqlSession sqlSession;//sql 세션템플릿(틀)에는 insert,
 	
@@ -82,9 +86,11 @@ public class BoardDAOImpl implements IF_BoardDAO {
 	}
 
 	@Override
-	public void insertBoard(BoardVO boardVO) throws Exception {
+	public int insertBoard(BoardVO boardVO) throws Exception {
 		// TODO 아래 주석과 동일
 		sqlSession.insert("boardMapper.insertBoard", boardVO);
+		logger.info("디버그: " +boardVO.getBno());
+		return boardVO.getBno();
 	}
 
 	@Override

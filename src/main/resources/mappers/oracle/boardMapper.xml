@@ -18,7 +18,7 @@ values (#{save_file_name},#{real_file_name},sysdate,#{bno})
 select * from tbl_attach where bno = #{bno}
 </select>
 <!-- 게시물 등록시 발생된 bno를 구한 결과값 1개만 구해서 첨부파일의 bno 입력 값으로 사용 -->
-<insert id="inserAttach">
+<insert id="insertBoard" parameterType="java.util.Map">
 insert into tbl_attach
 (
 	save_file_name, real_file_name, reg_date, bno
@@ -26,11 +26,14 @@ insert into tbl_attach
 values
 (
 	#{save_file_name}, #{rea_file_name}, sysdate,
-	select bno from (
-		select bno from tbl_board order by bno desc
-	) where rownum = 1
 )
 </insert>
+<!-- 
+bno 변수값으로 받는 로직을 추가했기때문에 아래 주석
+		select bno from (
+			select bno from tbl_board order by bno desc
+		) where rownum = 1
+-->
 <!-- 위 bno는 게시물 등록시 첨부파일 쿼리는 bno 매게변수로 보낼 수가 없는 상태임. -->
 <!-- 게시물 CRUD 쿼리 생성 -->
 <delete id="deleteBoard">
@@ -51,12 +54,12 @@ update tble_board set
 view_count = nvl(view_count,0) + 1
 where bno = #{bno}
 </update>
-<select id="readBoard" resultType="com.edu.vo.BoardVO">
+<select id="insertBoard" parameterType="com.edu.vo.BoardVO">
 select * from tbl_board where bno = #{bno}
 </select>
 <!-- bno 필드 변수가 자동증가가 되는 기능이 필요 seq.nextVal -->
 <insert id="insertBoard">
-	<selectKey keyProperty="seq_bno" resultType="int" order="BEFORE">
+	<selectKey keyProperty="bno" resultType="int" order="BEFORE">
 	select seq_bno.nextval from dual
 	</selectKey>
 	insert into tbl_board

@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class BoardVO {
 	//멤버변수 생성
-	private Integer bon;
+	private Integer bno;
 	private String title;
 	private String content;
 	private String writer;
@@ -19,23 +19,48 @@ public class BoardVO {
 	private Date reg_date;
 	private Date update;
 	private Integer board_type; //FK
+	//private String save_file_name; 첨부파일이 1개 이상일 수 있기 때문에...
+	//게시물 등록시 1개. 그런데, 첨부파일 1개 이상필요합니다. 1개의 필드에 여러개를 입력할순 없습니다.
+	// 그래서, DB에는 없는 가상 멤버변수(필드) 2개를 만듭니다.
+	private String[] save_file_names;//Null 가능
+	private String[] real_file_names;//Null 가능
+	
+	public String[] getSave_file_names() {
+		return save_file_names;
+	}
+
+	public void setSave_file_names(String[] save_file_names) {
+		this.save_file_names = save_file_names;
+	}
+
+	public String[] getReal_file_names() {
+		return real_file_names;
+	}
+
+	public void setReal_file_names(String[] real_file_names) {
+		this.real_file_names = real_file_names;
+	}
+
 	//디버그용 toString()생성
 	@Override
 	public String toString() {
-		return "BoardVO [bon=" + bon + ", title=" + title + ", content=" + content + ", writer=" + writer
+		return "BoardVO [bon=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer
 				+ ", view_count=" + view_count + ", reply_count=" + reply_count + ", board_type=" + board_type + "]";
 	}
 
 	//
-	public Integer getBon() {
-		return bon;
-	}
-	public void setBon(Integer bon) {
-		this.bon = bon;
-	}
+	
 	public String getTitle() {
 		return title;
 	}
+	public Integer getBno() {
+		return bno;
+	}
+
+	public void setBno(Integer bno) {
+		this.bno = bno;
+	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
