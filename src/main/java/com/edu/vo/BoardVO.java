@@ -18,7 +18,7 @@ public class BoardVO {
 	private Integer reply_count;
 	private Date reg_date;
 	private Date update;
-	private Integer board_type; //FK
+	private String board_type; //FK
 	//private String save_file_name; 첨부파일이 1개 이상일 수 있기 때문에...
 	//게시물 등록시 1개. 그런데, 첨부파일 1개 이상필요합니다. 1개의 필드에 여러개를 입력할순 없습니다.
 	// 그래서, DB에는 없는 가상 멤버변수(필드) 2개를 만듭니다.
@@ -100,10 +100,13 @@ public class BoardVO {
 	public void setUpdate(Date update) {
 		this.update = update;
 	}
-	public Integer getBoard_type() {
+
+	public String getBoard_type() {
 		return board_type;
 	}
-	public void setBoard_type(Integer board_type) {
+
+	public void setBoard_type(String board_type) {
 		this.board_type = board_type;
 	}
+	
 }

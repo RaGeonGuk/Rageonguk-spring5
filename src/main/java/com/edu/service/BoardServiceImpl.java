@@ -48,10 +48,25 @@ public class BoardServiceImpl implements IF_BoardService{
 
 	@Override
 	public void updateBoard(BoardVO boardVO) throws Exception {
-		// TODO 첨부파일 처리 포함 게시물 업데이트 2개의 메서드 실행이 필요
+		// TODO 첨부파일 있으면 updateAttach -> 게시물 업데이트 updateBoard
 		boardDAO.updateBoard(boardVO);
-		AttachVO attachVO=null;
-		boardDAO.updateAttach(null);
+		//첨부파일 DB처리)(아래)
+		int bno = boardVO.getBno();
+		String[] save_file_names = boardVO.getSave_file_names();
+		String[] real_file_names = boardVO.getReal_file_names();
+		if(save_file_names == null) {return;} //조건이 맞지 않으면 빠져나감. 이후 실행 안함
+		AttachVO attachVO = new AttachVO();
+		int index = 0;
+		String real_file_name ="";
+		for(String save_file_name:save_file_names) {
+			real_file_name = real_file_names[index];
+			attachVO.setBno(bno);
+			attachVO.setSave_file_name(save_file_name);
+			attachVO.setReal_file_name(real_file_name);
+			boardDAO.updateAttach(null);
+			index = index +1; //index++;
+		}
+		
 	}
 
 	@Override
@@ -82,6 +97,7 @@ public class BoardServiceImpl implements IF_BoardService{
 			attachVO.setReal_file_name(real_file_name);
 			attachVO.setSave_file_name(save_file_name);
 			boardDAO.insertAttach(attachVO);
+			index = index +1; //index++;
 		}
 	}
 

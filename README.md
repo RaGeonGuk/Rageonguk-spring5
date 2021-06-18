@@ -34,6 +34,10 @@
 - 실행순서: 사람 1: insertBoard -> bno(101) -> 첨부파일 insertAttach -> bno필요
 - 사람2: insertBoard -> bno(102) -> 위에 있는 사람 1이 사람 2 bno 갖다가 사용하는 경우는?
 - 해결책1: @Transantional을 insertboard메서드를 감싸주면 , 간단하게 해결
+- 해결책2: insertBoard 쿼리에 return 값을 bno 받아서 insertAttach 를 실행하게 처리.
+- @Service 까지는 DB(테이블) CRUD 합니다.
+- 그러면, 첨부파일은 @Controller에서 업로드/다운로드 로직 여기처리, 그래서 여기서 코딩이 제일 지저분합니다.
+- ===================================================
 
 
 #### 20210617(목) 작업.
