@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="boardMapper">
+<!-- 첨부파일 CRUD 쿼리 생성, 주, 우리 로직에서는 첨부파일 수정X ->입력,삭제 -->
+<!-- 첨부파일 삭제는 1개만 삭제하지않고, 일괄삭제도 있음 -->
+<delete id="deleteAttachAll">
+delete from tbl_attach where bno = #{bno}
+</delete>
+<delete id="deleteAttach">
+delete from tbl_attach where save_file_name = #{save_file_name}
+</delete>
+<!-- 왜 수정이 없는가? > 저장된 파일을  수정못하고, 기존삭제하고, 신규파일을 덮어씁니다. 단,bno를 매게변수 받습니다. -->
+<insert id="updateAttach">
+insert into tbl_attach (save_file_name,real_file_name,reg_date,bno)
+values (#{save_file_name},#{real_file_name},sysdate,#{bno})
+</insert>
+<select id="readAttach" resultType="com.edu.vo.AttachVO">
+select * from tbl_attach where bno = #{bno}
+</select>
+<!-- 게시물 등록시 발생된 bno를 구한 결과값 1개만 구해서 첨부파일의 bno 입력 값으로 사용 -->
+<insert id="inserAttach">
+insert into tbl_attach
+(
+	save_file_name, real_file_name, reg_date, bno
+)
+values
+(
+	#{save_file_name}, #{rea_file_name}, sysdate,
+	select bno from (
+		select bno from tbl_board order by bno desc
+	) where rownum = 1
+)
+</insert>
+<!-- 위 bno는 게시물 등록시 첨부파일 쿼리는 bno 매게변수로 보낼 수가 없는 상태임. -->
+<!-- 게시물 CRUD 쿼리 생성 -->
+<delete id="deleteBoard">
+delete from tbl_board where bno = #{bno}
+</delete>
+<update id="updateBoard">
+update tbl_board set
+board_type = #{board_type}
+,title = #{title}
+,content = #{content}
+,writer = #{writer}
+,update_date = systimestamp
+where bno = #{bno}
+</update>
+<!-- 아래 뷰카운터는 게시물 상세보기시 카운트 증가, 예 유튜브 조회수 증가방식과 비슷 -->
+<update id="updateViewCount">
+update tble_board set
+view_count = nvl(view_count,0) + 1
+where bno = #{bno}
+</update>
+<select id="readBoard" resultType="com.edu.vo.BoardVO">
+select * from tbl_board where bno = #{bno}
+</select>
 <!-- bno 필드 변수가 자동증가가 되는 기능이 필요 seq.nextVal -->
 <insert id="insertBoard">
-	<selectKey keyProperty="bno" resultType="int" order="BEFORE">
+	<selectKey keyProperty="seq_bno" resultType="int" order="BEFORE">
 	select seq_bno.nextval from dual
 	</selectKey>
 	insert into tbl_board
@@ -12,7 +65,7 @@
 	)
 	values
 	(
-	#{bno},#{title},#{content},#{writer},#{reg_date},systimestamp,#{board_type}
+	#{seq_bno},#{title},#{content},#{writer},#{reg_date},systimestamp,#{board_type}
 	)
 </insert>
 <!-- 페이징 처리때문에 중첩쿼리 생성(아래) -->
@@ -29,11 +82,11 @@ select table_b. * from
 ) table_b where table_b.rnum > #{queryStartNO}*#{queryPerPageNum}
 	]]>
 </select>
-<!-- 검색처리는 멤버 쿼리에서 작성한 내용 붙여넣기 다중 게시판용 필드조회 조건 추가예정? -->
+<!-- 검색처리는 멤버 쿼리에서 작성한 내용 붙여넣기 다중 게시판용 필드조회 조건 추가 pageVO -->
 <sql id="sqlWhere">
+WHERE board_type= #{board_type}
 	<if test ="search_type != '' and search_type !=null">
-		WHERE
-       
+		and(
 		<if test ="search_type == 'all'.toString()">
 			user_id LIKE '%'||#{search_keyword}||'%' 
 			OR user_name LIKE '%'||#{search_keyword}||'%'
@@ -44,6 +97,7 @@ select table_b. * from
 		<if test ="search_type == 'content'.toString()">
 			user_name LIKE '%'||#{search_keyword}||'%'
 		</if>
+		)
 	</if>
 </sql>
 
