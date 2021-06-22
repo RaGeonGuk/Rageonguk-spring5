@@ -1,5 +1,6 @@
 package com.edu.controller;
 
+import java.io.File;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,16 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.edu.service.IF_BoardService;
 import com.edu.service.IF_BoardTypeService;
 import com.edu.service.IF_MemberService;
+import com.edu.util.CommonUtil;
+import com.edu.vo.AttachVO;
 import com.edu.vo.BoardTypeVO;
+import com.edu.vo.BoardVO;
 import com.edu.vo.MemberVO;
 import com.edu.vo.PageVO;
 
 /**
- * 이 클래스는 Admin관리자단을 접근하는 클래스 <- 디스패처 서블렛(게이트웨이) 기능을 합니다.
- * 디스페처 서블렛 클래스는 톰캣이 실행될때 제일 먼저 실행되는 클래스, 그래서, 게이트웨이라고합니다.
- * 디스페처 서블릿 실행될때, 컨트롤러의 Request 매핑경로를 다 등록합니다.
+ * 이 클래스는 Admin관리자단을 접근하는 컨트롤러 클래스 <- 디스패처 서블렛(게이트웨이) 기능을 합니다.
+ * 디스페처 서블렛 클래스는 톰캣이 실행(web.xml)될때 제일 먼저 실행되는 클래스, 그래서, 게이트웨이라고 합니다.
+ * 디스페처 서블릿 실행될때, 컨트롤러의 Request매핑경로를 재 등록합니다.
  * 변수 Object를 만들어서 jsp로 전송 <-> jsp 폼값을 받아서 Object로 처리
  * @author 라건국
  *
@@ -38,42 +43,119 @@ public class AdminController {
 	private IF_MemberService memberService;
 	@Inject
 	private IF_BoardTypeService boardTypeService;
+	@Inject
+	private IF_BoardService boardService;//DI으로 스프링빈을 주입해서 객체로 생성
+	@Inject
+	private CommonUtil commonUtil;
 	
-	//jsp에서 게시판 생성관리에 Get/Post 접근할때 URL을 bbs_type로 지정합니다.
-	//왜 board_type으로 안하고, bbs_type하는 이유는 왼쪽 메뉴 고정시키는 로직에서 경로 board와 겹치지 않도록
-	@RequestMapping(value = "/admin/bbs_type/bbs_type_list", method = RequestMethod.GET)
-	public String selectBoardTypeList(Model model) throws Exception {//목록 폼 1
-		//아래 모델은 AOP 기능중 ControllerAdvice 인터페이스로 구현했기 때문에 아래는 주석처리
+	//게시물 삭제는 URL 쿼리스트링으로 접근하지않고, post 방식으로 처리.
+	@RequestMapping(value="/admin/board/board_delete", method=RequestMethod.POST)
+	public String board_delete (@RequestParam("bno")Integer bno,PageVO pageVO) throws Exception{
+		//디버그 삭제할 전역 변수 경로 확인 
+		logger.info("디버그 전역업로드 경로: " + commonUtil.getUploadPath());
+		//DB테이블 삭제한 이후, 첨부파일부터 있으면 삭제처리. 자바에서 파일핸들링처리
+		//기존 등록된 첨부파일 폴더에서 삭제할 UUID(고유한 식별값 생성클래스)
+		List<AttachVO> delFiles = boardService.readAttach(bno); //해당게시물의 모든 첨부파일 delFiles에 임시로 담아놓습니다.
+		boardService.deleteBoard(bno);//첨부파일 테이블 삭제 후 게시물 테이블 삭제
+		//물리적으로 파일삭제 처리 시작, 향상된 for문 사용
+		for(AttachVO file_name:delFiles) {
+			//file클래스는("파일의 업로드된 위치","삭제할 파일명")
+			File target = new File(commonUtil.getUploadPath(),file_name.getSave_file_name());
+			if(target.exists()) {
+				target.delete();//물리적인 파일 지우는 명령
+			}
+		}
+		
+		String queryString = "page="+pageVO.getPage()+"&search_type="+pageVO.getSearch_type()+"&search_keyword="+pageVO.getSearch_keyword();
+		return "redirect:/admin/board/board_list?"+queryString;
+	}
+	//게시물 상세보기 폼으로 접근하지 않고 URL쿼리 스트링으로 접근(GET)
+	@RequestMapping(value="/admin/board/board_view", method=RequestMethod.GET)
+	public String board_view(@RequestParam("bno")Integer bno,@ModelAttribute("pageVO")PageVO pageVO, Model model) throws Exception {
+		BoardVO boardVO = boardService.readBoard(bno);
+		
+		//첨부파일 부분 attach데이터도 board_view.jsp로 이동해야 함(아래)
+		List<AttachVO> files = boardService.readAttach(bno);
+		logger.info("debug19: "+ files);
+		//배열객체 생성구조: String[] 배열명 = new String[배열크기];
+		//개발자가 만든 클래스형 객체 boardVO는 개발자가 만든 메서드 사용
+		//반면, List<AttachVO> files List클래스형 객체 files는 내장형 메서드 = .size()
+		String[] save_file_names = new String[files.size()];
+		String[] real_file_names = new String[files.size()];
+		//attach테이블안의 해당bno게시물의 첨부파일 이름 파싱해서 jsp로 보내주는 과정(아래)
+		int cnt = 0;
+		for(AttachVO file_name:files) {//files다수레코드 에서 1개의 레코드씩 추출
+			save_file_names[cnt] = file_name.getSave_file_name();
+			real_file_names[cnt] = file_name.getReal_file_name();
+			cnt = cnt + 1;//cnt++;
+		}
+		//위 for은 세로데이터(다수레코드)를 가로데이터(1레코드이면, 배열)에 담아서 1개 레코드boardVO로 만드게 목적.
+		boardVO.setSave_file_names(save_file_names);//파싱한 결과 Set//다운로드로직
+		boardVO.setReal_file_names(real_file_names);//boardVO에 Set//화면에보이는데
+		model.addAttribute("boardVO", boardVO);//게시물 + 첨부파일 명2개이상
+		//업로드한 파일이 이미지인지 아닌지 확인하는 용도의 데이터 입니다.아래(목적:이미지일때 미리보기 img태그를 사용 하기위해서)
+		model.addAttribute("checkImgArray", commonUtil.getCheckImgArray());
+		return "admin/board/board_view";//.jsp생략
+	}
+	
+	//게시물 목록은 폼으로 접근하지 않고 URL로 접근하기 때문에 GET방식으로처리
+	@RequestMapping(value="/admin/board/board_list", method=RequestMethod.GET)
+	public String board_list(@ModelAttribute("pageVO")PageVO pageVO, Model model) throws Exception {
+		//게시판타입이 null일때 기본값으로 notice를 추가
+		if(pageVO.getBoard_type() == null) {
+			pageVO.setBoard_type("notice");
+		}
+		//페이징처리를 위한 기본값 추가
+		if(pageVO.getPage() == null) {
+			pageVO.setPage(1);
+		}
+		pageVO.setPerPageNum(5);//UI하단에서 보여줄 페이징 번호 크기
+		pageVO.setQueryPerPageNum(5);//토탈 카운트를 구하기전 필수로 필요
+		pageVO.setTotalCount(boardService.countBoard(pageVO));
+		
+		model.addAttribute("listBoardVO", boardService.selectBoard(pageVO));
+		return "admin/board/board_list";//.jsp생략
+	}
+	//jsp에서 게시판생성관리에 Get/Post 접근할때 URL을 bbs_type로 지정합니다.
+	//왜 board_type하지않고, bbs_type하는 이유는 왼쪽메뉴 고정시키는 로직에서 경로 board와 겹치지 않도록
+	@RequestMapping(value="/admin/bbs_type/bbs_type_list", method=RequestMethod.GET)
+	public String selectBoardTypeList(Model model) throws Exception {//목록폼1
+		//아래 모델은 AOP기능중 ControllerAdvice 인터페이스로 구현했기 때문에 아래는 실행안함.
 		//model.addAttribute("listBoardTypeVO", boardTypeService.selectBoardType());
-		return "admin/bbs_type/bbs_type_list"; //상대경로일때는 views폴더가 root(최상위)
+		return "admin/bbs_type/bbs_type_list";//상대경로일때는 views폴더가 root(최상위)
 	}
-	//bbs_type_list.jsp에서 게시판 생성 버튼을 클릭했을때 이동하는 폼 경로
-	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method = RequestMethod.GET)
-	public String insertBoardTypeForm() throws Exception {//입력 폼 1
-		return "admin/bbs_type/bbs_type_insert";//jsp생략
+	//bbs_type_list.jsp에서 게시판생성 버튼을 클릭했을때 이동하는 폼 경로 
+	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method=RequestMethod.GET)
+	public String insertBoardTypeForm() throws Exception {//입력폼1
+		return "admin/bbs_type/bbs_type_insert";//.jsp생략
 	}
-	//bbs_type_insert.jsp의 입력폼에서 전송된 값이  boardTypeVO 자동으로 담겨서 {구현} 단, 자동으로 값이 바인딩되려면 , 폼의 name과, VO멤버변수명과 동일
-	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method = RequestMethod.POST)
-	public String insertBoardType(BoardTypeVO boardTypeVO) throws Exception {//입력 처리 1
+	//bbs_type_insert.jsp의 입력폼에서 전송된 값을 boardTypeVO 자동담겨서 {구현} 단, 자동으로 값이 바인딩되려면, 폼name과, VO 멤버변수명 동일해야함. 
+	@RequestMapping(value="/admin/bbs_type/bbs_type_insert", method=RequestMethod.POST)
+	public String insertBoardType(BoardTypeVO boardTypeVO) throws Exception {//입력처리1
 		boardTypeService.insertBoardType(boardTypeVO);
-		return "redirect:/admin/bbs_type/bbs_type_list";//리다이렉트(뒤로가기 불가)는 절대경로 forward:이동이 가능(뒤로 가기 가능)
+		return "redirect:/admin/bbs_type/bbs_type_list";
+		//리다이렉트(뒤로가기 데이터사라짐)는 절대경로, forward:이동이 가능(뒤로가기 데이터가 살아있음)
+		//쇼핑몰에서 결제화면을 처리 후 뒤로가기를 누르면, 리다이렉트는 데이터가 사라지기때문에 재결제 불가
+		//forward로 결제화면을 처리 후 뒤로가기를 누르면, 재결제가 발생됩니다. 이러면 않되기때문에 사용안함. 
 	}
-	//게시판 생성관리는 이 기능은 사용자단에서 UI를 사용할 일이 없기 때문에, Read, Update를 1개로 사용.
-	@RequestMapping(value = "/admin/bbs_type/bbs_type_update", method=RequestMethod.GET)
-	public String updateBoardTypeForm(@RequestParam("board_type")String board_type, Model model) throws Exception {//수정 폼 1
-		model.addAttribute("boardTypeVO",boardTypeService.readBoardType(board_type));
-		return "admin/bbs_type/bbs_type_update"; //jsp 생략
+	//게시판 생성관리는 이 기능은 사용자단에서 UI를 사용할 일이 없기때문에, Read, Update를 1개로 사용.
+	@RequestMapping(value="/admin/bbs_type/bbs_type_update", method=RequestMethod.GET)
+	public String updateBoardTypeForm(@RequestParam("board_type")String board_type, Model model) throws Exception {//수정폼1
+		model.addAttribute("boardTypeVO", boardTypeService.readBoardType(board_type));
+		//서식model.add~("jsp변수로담아서 view화면으로 보냄","서비스에서 쿼리실행한 데이터객체");
+		return "admin/bbs_type/bbs_type_update";//.jsp생략
 	}
-	@RequestMapping(value = "/admin/bbs_type/bbs_type_update", method=RequestMethod.POST)
-	public String updateBoardType(BoardTypeVO boardTypeVO) throws Exception {//수정 처리 1
-		 boardTypeService.updateBoardType(boardTypeVO);
-		 return "redirect:/admin/bbs_type/bbs_type_update?board_type="+boardTypeVO.getBoard_type();// 수정한 이후 수정폼을 GET방식으로 이동
-	}		
-	@RequestMapping(value = "/admin/bbs_type/bbs_type_delete", method=RequestMethod.POST)
-	public String deleteBoardType(@RequestParam("board_type")String board_type) throws Exception {//삭제 처리 1
-		boardTypeService.deleteBoardType(board_type); // 삭제 서비스 호출(실행) 끝
-		return "redirect:/admin/bbs_type/bbs_type_list";			
+	@RequestMapping(value="/admin/bbs_type/bbs_type_update", method=RequestMethod.POST)
+	public String updateBoardType(BoardTypeVO boardTypeVO) throws Exception {//수정처리1
+		boardTypeService.updateBoardType(boardTypeVO);
+		return "redirect:/admin/bbs_type/bbs_type_update?board_type="+boardTypeVO.getBoard_type();//수정한 이후 수정폼을 GET방식으로 이동
 	}
+	@RequestMapping(value="/admin/bbs_type/bbs_type_delete", method=RequestMethod.POST)
+	public String deleteBoardType(@RequestParam("board_type")String board_type) throws Exception {//삭제처리1
+		boardTypeService.deleteBoardType(board_type);//삭제서비스 호출(실행) 끝
+		return "redirect:/admin/bbs_type/bbs_type_list";//.jsp생략
+	}
+	//=============================================================
 	//아래 경로는 회원신규등록 폼을 호출하는 URL쿼리스트링으로 보낸것을 받을때는 GET방식으로 받습니다.
 	@RequestMapping(value="/admin/member/member_insert_form", method=RequestMethod.GET)
 	public String insertMemberForm(@ModelAttribute("pageVO")PageVO pageVO) throws Exception {

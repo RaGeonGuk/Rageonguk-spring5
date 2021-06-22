@@ -29,6 +29,7 @@ public class PageVO {
 				+ ", endPage=" + endPage + ", prev=" + prev + ", next=" + next + ", search_keyword=" + search_keyword
 				+ ", search_type=" + search_type + "]";
 	}
+	
 	//Get,Set용 메서드 추가
 	public String getBoard_type() {
 		return board_type;

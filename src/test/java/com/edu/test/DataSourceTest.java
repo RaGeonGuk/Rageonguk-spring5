@@ -18,7 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.edu.dao.IF_BoardService;
+import com.edu.service.IF_BoardService;
 import com.edu.service.IF_MemberService;
 import com.edu.vo.BoardVO;
 import com.edu.vo.MemberVO;
