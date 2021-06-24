@@ -9,12 +9,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">${boardVO.board_type} 글수정</h1>
+            <h1 class="m-0">${session.board_type} 글쓰기</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">${boardVO.board_type} 게시물관리</li>
+              <li class="breadcrumb-item active">${session.board_type} 게시물관리</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -28,18 +28,19 @@
         <!-- 콘텐츠 내용 -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">수정</h3>
+            <h3 class="card-title">등록</h3>
           </div>
           <!-- /.card-header -->
           <!-- form start -->
           <!-- 첨부파일을 전송할때 enctype=필수 없으면, 첨부파일이 전송X -->
-          <form name="form_write" method="post" action="/admin/board/board_update" enctype="multipart/form-data">
+          <form name="form_write" method="post" action="/admin/board/board_insert" enctype="multipart/form-data">
             <div class="card-body">
               <div class="form-group">
                 <label for="board_type">게시판타입</label>
                 <select name="board_type" class="form-control">
+                <!-- 세션값을 비교하는 값으로 사용하는 이유는 신규등록이기 때문에 -->
                 <c:forEach var="boardTypeVO" items="${listBoardTypeVO}">
-                  <option ${boardVO.board_type==boardTypeVO.board_type?'selected':''} value="${boardTypeVO.board_type}">${boardTypeVO.board_name}</option>
+                  <option ${session_board_type==boardTypeVO.board_type?'selected':''} value="${boardTypeVO.board_type}">${boardTypeVO.board_name}</option>
                 </c:forEach>
                   
                 </select>
