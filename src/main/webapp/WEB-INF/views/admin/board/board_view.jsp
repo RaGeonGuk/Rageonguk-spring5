@@ -3,6 +3,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../include/header.jsp" %>
+<!-- [if IE] -->
+<style>
+/* 아래 미디어쿼리는 IE10,11에서 지원하는 전용CSS 적용시 사용 */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+.ie_only {max-height:500px; overflow:auto;}
+}
+
+</style>
+<!-- [endif] -->
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -63,12 +73,19 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputFile">첨부파일</label>
+                <div class="input-group">
                 <c:forEach begin="0" end="1" var="idx">
 	                <c:if test="${boardVO.save_file_names[idx] != null}">
-	                <div class="input-group">
-	                  <div class="">
-	                  	<!-- 첨부파일을 URL로 직접접근하지 못하기 때문에 컨트롤러로만 접근이 가능(다운로드전용 메서드생성) -->
-	                    <a href="/download?save_file_name=${boardVO.save_file_names[idx]}&real_file_name=${boardVO.real_file_names[idx]}">
+	                
+	                  <div class="ie_only" style="">
+	                  	<!-- JSTL의 c:url 태그로 URL감싸주면 인코딩처리됩니다.(한글이 인코딩이됩니다) -->
+	                  	<c:url value="/download" var="url"> 
+						   <c:param name="save_file_name" value="${boardVO.save_file_names[idx]}" />
+						   <c:param name="real_file_name" value="${boardVO.real_file_names[idx]}" /> 
+						</c:url>
+						<a href="${url}">
+	                  	<!-- 첨부파일을 URL로 직접접근하지 못하기 때문에 컨트롤러로만 접근이 가능(다운로드전용 메서드생성)IE에서 한글쿼리스트링문제때문에 사용X -->
+	                    <%-- <a href="/download?save_file_name=${boardVO.save_file_names[idx]}&real_file_name=${boardVO.real_file_names[idx]}"> --%>
 	                    ${boardVO.real_file_names[idx]}
 	                    </a>
 	                    <!-- jstl에서 변수사용하기 fn.split('데이터','분할기준값') 목적: 확장자를 이용해서 이미지 미리보기를 할 건지 결정 img태그사용
@@ -90,9 +107,10 @@
 	                    	</c:otherwise>
 	                    </c:choose>
 	                  </div>
-	                </div>
+	                
 	                </c:if>
-                </c:forEach>                
+                </c:forEach> 
+                </div>              
               </div>
             </div>
             <!-- /.card-body -->
