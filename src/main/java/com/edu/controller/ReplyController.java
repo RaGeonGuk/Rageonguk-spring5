@@ -41,7 +41,7 @@ public class ReplyController {
 		ResponseEntity<String> result = null;
 		try {
 			replyService.updateReply(replyVO);
-			result= new ResponseEntity<String>("success",HttpStatus.OK)
+			result= new ResponseEntity<String>("success",HttpStatus.OK);
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
