@@ -1,12 +1,21 @@
 package com.edu.controller;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //외부 라이브러리(모듈) 사용 = import
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.edu.service.IF_MemberService;
+import com.edu.vo.MemberVO;
 
 /**
  * 이 클래스는 MVC웹프로젝트를 최초로 생성시 자동으로 생성되는 클래스
@@ -30,6 +39,58 @@ public class HomeController {
 	 */
 	//이제부터 일반적인 개발방시 VO->쿼리->DAO->Service(관리자단에서 여기까지끝)
 	//관리자단에서 작성한 Service 사용자단에서 그대로 이용, 컨트롤러부터 분리해작업->jsp
+	@Inject
+	private IF_MemberService memberService;
+	
+	//회원가입 처리 호출 POST방식
+	@RequestMapping(value="/join",method=RequestMethod.POST)
+	public String join(MemberVO memberVO, RedirectAttributes rdat) throws Exception {
+		//rawPassword암호를 스프링시큐리티로 인코딩 합니다.(아래)
+		String rawPassword = memberVO.getUser_pw();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		memberVO.setUser_pw(passwordEncoder.encode(rawPassword));//암호화 실행.
+		
+		memberService.insertMember(memberVO);
+		rdat.addFlashAttribute("msg", "회원가입");//회원가입 가(이) 성공했습니다. 출력
+		return "redirect:/login_form";//페이지 리다이렉트로 이동
+	}
+	//회원가입폼 호출 Get방식
+	@RequestMapping(value="/join_form",method=RequestMethod.GET)
+	public String join_form() throws Exception {
+		
+		return "home/join";//.jsp생략
+	}
+	//마이페이지에서 회원탈퇴 POST방식 처리만.
+	@RequestMapping(value="/member/mypage_leave", method=RequestMethod.POST)
+	public String mypage_leave(MemberVO memberVO) throws Exception {
+		memberService.updateMember(memberVO);
+		//rdat.addFlashAttribute("msg", "회원탈퇴");//스프링내장된logout을 사용시X
+		return "redirect:/logout";
+	}
+	//마이페이지 회원정보수정 POST방식. 처리 후 msg를 히든값으로 jsp로 전송합니다.
+	@RequestMapping(value="/member/mypage", method=RequestMethod.POST)
+	public String mypage(MemberVO memberVO, RedirectAttributes rdat) throws Exception {
+		//암호를 인코딩 처리합니다. 조건, 암호를 변경하는 값이 있을때
+		if(!memberVO.getUser_pw().isEmpty()) {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String rawPassword = memberVO.getUser_pw();
+			memberVO.setUser_pw(passwordEncoder.encode(rawPassword));
+		}
+		memberService.updateMember(memberVO);
+		rdat.addFlashAttribute("msg", "회원정보수정");//회원정보수정 가(이) 성공했습니다. 출력용
+		return "redirect:/member/mypage_form";
+	}
+	//마이페이지 폼호출 GET방식, 회원수정폼이기때문에 model담아서 변수값을 전송이 필요
+	@RequestMapping(value="/member/mypage_form", method=RequestMethod.GET)
+	public String mypage_form(HttpServletRequest request, Model model) throws Exception {
+		//로그인 한 사용자 세션을 session_userid로 memberService의 readMember를 호출하면됨.
+		//jsp에서 발생된 세션을 가져오려고 하기 때문에 HttpServletRequest객체가 사용됩니다.
+		HttpSession session = request.getSession();//싱클톤 객체
+		String user_id = (String) session.getAttribute("session_userid");
+		//memberService에서 1개의 레코드를 가져옵니다. model담아서 jsp로 보냅니다.
+		model.addAttribute("memberVO", memberService.readMember(user_id));
+		return "home/member/mypage";//.jsp생략
+	}
 	//사용자단 로그인 폼호출 GET, 로그인POST처리는 컨트롤러에서 하지않고 스프링시큐리티로 처리
 	@RequestMapping(value="/login_form", method=RequestMethod.GET)
 	public String login_form() throws Exception {
