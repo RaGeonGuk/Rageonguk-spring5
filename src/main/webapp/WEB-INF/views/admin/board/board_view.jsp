@@ -322,8 +322,13 @@ var replyList = function() {
 				printPagingList(result.pageVO, ".pagination");
 			}
 		},
-		error:function() {
-			alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요.");
+		error:function(result) {
+			//console.log(result); //크롬에서 확인 gkfEo,
+			//전체 json데이터를 출력할때 stringify 함수로 형변환해서 출력
+			//만약 json 데이터에서 키 이름을 알게되면, stringfy 함수 필요없이 result.responseText 출력가능
+			alert(JSON.stringify(result.responseText));//이클립스에서 확인할 때, 관리자단에서만 사용
+			//단, 관리자단에서만 디버그하고, 사용자단에서는 아래 항목만 유지
+			alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요.0");
 		}
 	});
 };
@@ -354,7 +359,7 @@ $(document).ready(function(){
 				}
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 다음에 시도해 주세요.");
+				alert("RestAPI서버가 작동하지 않습니다. 다음에 시도해 주세요.1");
 			}
 		});
 	});
@@ -391,7 +396,7 @@ $(document).ready(function(){
 				
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.")
+				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.2")
 			}
 		});
 	});
@@ -438,7 +443,7 @@ $(document).ready(function(){
 				replyList();
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.")
+				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.3")
 			}
 		});
 	});

@@ -19,7 +19,7 @@
 				 
 				<!-- 
 				<value>classpath:/properties/hsql.properties</value>
-				-->
+				 -->
 			</list>
 		</property>
 	</bean>
