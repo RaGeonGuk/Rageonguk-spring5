@@ -1,31 +1,30 @@
-@charset "UTF-8";  
-
-/* 게시판 공통영역 bbs(bulletin board system) 게시판 */
+@charset "UTF-8";
+/* 게시판 공통영역 bbs(bulletin board system) */
 .bbsListTbl a:hover, .pagination a:hover, .bbs_title a:hover, .tit_lbl a:hover {
     color: #000 !important;
-} 
+}
 /* //게시판 공통영역 */
 /* 메인상단위치표시영역 */
 .location_area {
     height: 260px;
-    background: rgba(182, 126, 42, 0.7)
+    background: rgb(212, 144, 41);
 }
 .tit_page {
     padding: 140px 0px 0px 0px;
-    margin:  0px 45px;
+    margin: 0px 45px;
     border-bottom: 1px solid #ccc;
     font: 30px 'Arial Narrow';
     color: #fff;
     letter-spacing: 3px;
     text-align: left;
 }
-.location {display: none;}
+.location { display: none; }
 ul.page_menu {
     display: block;
     padding: 10px 0px 0px 45px;
 }
 ul.page_menu li {
-    float: left; /* 리스트 태그의 세로 배치를 가로배치로 바꾸는 명령 */
+    float: left; /* 리스트태그의 세로배치를 가로배치로 바꾸는 명령 */
     padding-bottom: 10px;
 }
 ul.page_menu li a.on {
@@ -38,13 +37,12 @@ ul.page_menu li a {
     margin-right: 20px;
     font-size: 15px;
     color: #ddd;
-
 }
-.tit_page .li {
-    font-variant: small-caps; /* 영문 대문자의 크기 지정 */
+.tit_page .in {
+    font-variant: small-caps;/* 영문의 대문자의 크기 지정 */
 }
-
 /* //메인상단위치표시영역 */
+
 /* 게시판리스트 영역 */
 .bodytext_area {
     box-sizing: border-box;
@@ -59,37 +57,37 @@ ul.page_menu li a {
     padding: 0px 5px 0px 30px;
     width: 200px;
     height: 35px;
-    line-height: 30px;
+    line-height: 35px;
     border: none;
     border-bottom: 1px solid #ccc;
-    background: url(../home/img/ico_search.png) no-repeat 10px 50%;
+    background: url(../img/ico_search.png) no-repeat 10px 50%;
     background-size: 15px;
 }
 .btn_srch {
-    display: inline; /* 줄 바꿈 없이 자리 차지하기 */
+    display: inline-block;/* 줄바꿈없이 자리차지하기 */
     width: 70px;
-    text-align: center; /* left center right */
+    text-align: center;/* left center right */
     height: 35px;
     font-size: 14px;
     line-height: 35px;
-    vertical-align: middle; /* top middle bottom */
+    vertical-align: middle;/* top middle bottom */
     background: #384d75;
-    color: #fff;
+    color: #fff !important;
     border: none;
 }
 .minisrch_form legend {
-    text-indent: -9999px; /* 시각장애인용 처리 = 웹접근성 처리 */
+    text-indent: -9999px; /* 시각장애인용 처리=웹접근성처리 */
     font-size: 0px;
 }
-input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타일 = 크로스 브라우징처리 */
+input::placeholder { color: #999; } /* IE(Internet Explore)브라우저용 스타일=크로스브라우징 처리 */
 .bbsListTbl {
     width: 100%;
     border-top: 2px solid #384d75;
 }
-.bbsListTbl th:nth-child(1) {display: none;} /* 모바일에서는 가로를 단순하게 처리하는 용도 */
-.bbsListTbl th:nth-child(2) {width: 70%;} /* 모바일전용 */
-.bbsListTbl th:nth-child(3) {display: none;}
-.bbsListTbl th:nth-child(4) {width: 30%;}
+.bbsListTbl th:nth-child(1) { display: none; } /* 모바일에서는 가로를 단순하게 처리하는 용도 */
+.bbsListTbl th:nth-child(2) { width: 70%; } /* 모바일전용 */
+.bbsListTbl th:nth-child(3) { display: none; }
+.bbsListTbl th:nth-child(4) { width: 30%; }
 .bbsListTbl th {
     border-bottom: 1px solid #ccc;
     font-weight: bold;
@@ -99,20 +97,20 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
     height: 45px;
     background: #fef3fa;
 }
-.bbsListTbl td:nth-child(1) {display: none;}
-.bbsListTbl td:nth-child(3) {display: none;}
+.bbsListTbl td:nth-child(1) { display: none; }
+.bbsListTbl td:nth-child(3) { display: none; }
 .bbsListTbl td {
     text-align: center;
     line-height: 1.3;
     border-bottom: 1px solid #ccc;
 }
-.bbsListTbl td:nth-child(2) { text-align: left;}
+.bbsListTbl td:nth-child(2) { text-align: left; }
 .bbsListTbl th, .bbsListTbl td {
     padding: 10px;
     box-sizing: border-box;
     height: 45px;
 }
-.bbsListTbl td a { /* 모바일 전용 */
+.bbsListTbl td a { /* 모바일전용 */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -158,20 +156,21 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
     line-height: 50px;
     background: #384d75;
     font-size: 20px;
+    font-weight: bold;
     color: #fff !important;
     text-align: center;
     vertical-align: bottom;
     border: none;
 }
-
 /* //게시판리스트 영역 */
-/* 여기까지 모바일용 이후 태블릿용 스타일지정 시작 */
+/* 여기까지가 모바일용 이후 태블릿용 스타일지정 시작 */
+/* 테블릿용 메인페이지 스타일 지정(아래) 801px~무한대까지 재정의 */
 @media all and (min-width:801px) {
-    /* 태블릿 + PC용 */
+	/* 테블릿+PC용 스타일 */
     .bbsListTbl th:nth-child(1) {
         display: table-cell;
         width: 6%;
-        margin-top: 7px; /* IE브라우저 호환성 = 크로싱브라우징 처리 */
+        margin-top: 7px; /* IE브라우저 호환성=크로싱브라우징 처리 */
     }
     .bbsListTbl th:nth-child(2) {
         width: 65%;
@@ -193,18 +192,19 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
         width: 125px;
         font-weight: normal;
     }
-    .bbsListTbl td a { /* 태블릿 + PC 전용 */
-    overflow: inherit;
+    .bbsListTbl td a { /* 태블릿+PC용 */
+    overflow: inherit; /* 초기화 */
     text-overflow: inherit;
     white-space: inherit;
     display: inherit;
     width: inherit;
+    }
 }
-}
+
 /* 게시판 글보기 영역 */
 .bbsview_list {
     padding-bottom: 30px;
-    border-top: 2px solid #384b75;
+    border-top: 2px solid #384d75;
     text-align: left;
 }
 .bbsview_list li {
@@ -239,12 +239,13 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
     width: 50%;
 }
 .bbsview_list .bbs_content {
-    clear: both; /* float: left,right 기능을 해제합니다. */
-    min-height: 200px; /* 내용이 비었더라도 최소 높이 200px 자리를 차지합니다. 단, 내용이 많으면 200이상으로 자리를 차지합니다. */
+    clear: both; /* float:left,right 기능을 해제합니다. */
+    min-height: 200px;/* 내용이 비었더라도 최소 높이 200px 자리를 차지합니다. 단, 내용이 많으면 200이상으로 자리를 차지합니다. */
     padding: 20px 15px !important;
 }
 .btn_bbs { /* 모바일 전용 */
-    margin-bottom: 5px;
+	border-style:none;
+    margin-bottom: 0px;
     display: inline-block;
     width: 100%;
     height: 35px;
@@ -255,29 +256,31 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
     text-align: center;
 }
 /* //게시판 글보기 영역 */
-/* 테블릿용 메인페이지 스타일 지정(아래)  801px~무한대까지 재정의 */
+/* 테블릿용 메인페이지 스타일 지정(아래) 801px~무한대까지 재정의 */
 @media all and (min-width:801px) {
-    .btn_bbs {
+    /* 뷰페이지 버튼 스타일 */
+	.btn_bbs {
         width: 70px;
         float: none;
         text-align: center;
     }
 }
-/* 게시판 글쓰기 홈 */
+
+/* 게시판 글쓰기 폼 */
 .appForm {
-    margin: 20px auto; /* 좌우로 가운데 정렬시 상하는 0, 좌우는 auto */
-    text-align: left;
+	margin:20px auto; /* 좌우로 가운데 정렬시 0 auto */
+	text-align: left;
 }
-.appForm legend {font-size: 0px;} /* 시각장애인용 처리: 웹 접근성 처리 */
-.pilsoo_item::before { /* 필수 컨텐츠 안에: 가상요소, befor는 pilsoo_)item 클래스 영역의 앞부분에 내용 */
-    content: '*'; 
-    display: inline-block;
-    position: absolute;
-    left: 5px;
-    width: 15px;
-    font-weight: bold;
-    font-size: 17px;
-    color: red;
+.appForm legend { font-size: 0px; } /* 시각장애인용 처리:웹접근성 처리 */
+.pilsoo_item::before { /* before가상요소는 pilsoo_item클래스영역의 앞부분에 내용들어감 */
+	content: '*';
+	display: inline-block;
+	position: absolute;
+	left: 5px;
+	width: 15px;
+	font-weight: bold;
+	font-size: 17px;
+	color: red;
 }
 .info_pilsoo {
     position: relative;
@@ -288,63 +291,64 @@ input::placeholder {color: #999;} /* IE(internet Explore)브라우저용 스타�
     color: red;
 }
 .app_list {
-    padding: 10px 0px;
+	padding: 10px 0px;
 }
 .app_list li {
-    position: relative;
-    padding: 10px 0px;
-    border-bottom: 1px solid #ccc;
+	position: relative;
+	padding: 10px 0px;
+	border-bottom: 1px solid #ccc;
 }
 .app_list li .tit_lbl {
-    float: none;
-    line-height: 50px;
-    position: relative;
-    box-sizing: border-box;
-    padding-left: 20px;
-    font-weight: bold;
-    font-size: 17px;
-    letter-spacing: -2px;
+	float: none;
+	line-height: 50px;
+	position: relative;
+	box-sizing: border-box;
+	padding-left: 20px;
+	font-weight: bold;
+	font-size: 17px;
+	letter-spacing: -2px;
 }
 .app_content {
-    float: none;
-    width: auto;
-    border: 1px solid #ccc;
-    margin-left: 1px;
+	float: none;
+	width: auto;
+	border: 1px solid #ccc;
+	margin-left: 1px;
 }
 .app_content input {
-    border: none;
-    /* width: inherit; 부모 영역의 input 태그의 너비값을 상속받음 = width 값을 초기화한다. */
-    box-sizing: border-box;
-    display: inline-block;
-    height: 45px;
-    padding: 0px 10px;
-    line-height: normal;
-    font-size: 15px;
+	border: none;
+	/* width: inherit; */
+    /* 부모 영역(브라우저기본값)의 input태그의 너비값을 상속 받음=width값을 초기화한다. */
+	box-sizing: border-box;
+	display: inline-block;
+	height: 45px;
+	padding: 0px 10px;
+	line-height: normal;
+	font-size: 15px;
 }
 .appForm textarea {
-    height: 130px;
-    box-sizing: border-box; /* 테두리까지 너비값에 포함 시킴 100% 없으면+2px /// 테두리만큼의 크기를 화면지정하겠다. */
-    padding: 10px;
-    font-size: 15px;
-    letter-spacing: -1px;
-    color: #444;
-    border: none;
+	height: 130px;
+	box-sizing: border-box;/* 테두리까지 너비값에 포함시킴 100% 없으면 100%+2px */
+	padding: 10px;
+	font-size: 15px;
+	letter-spacing: -1px;
+	color: #444;
+	border: none;
 }
-.appForm textarea::placeholder {color: #999;} /* 최신브라우저에 적용 */
-textarea:-ms-input-placeholder {color: #999;} /* ms사 브라우저에 적용 최소 현재는 IE 10 이상*/
+.appForm textarea::placeholder { color: #999; } /* 최신브라우저에 적용 */
+textarea:-ms-input-placeholder { color: #999; } /* ms사 브라우저에 적용 최소 현재는 IE10이상 표준 */
 .btn_baseColor {
-    margin-top: 10px;
+	margin-top: 10px;
 }
-/* //게시판 글쓰기 홈 */
+/* //게시판 글쓰기 폼 */
 @media all and (min-width:801px) {
     /* 글쓰기 폼 스타일 */
-    .app_list .tit_lbl { width: 20%;}
-    .app_list .app_content {
-        width: 79%;
-        float: right;
-        border: 1px solid #ccc;
-    }
-    .btn_line {text-align: center;}
-    .appForm textarea {height: 230px;}
-    /* 글쓰기 폼 스타일  */
+	.app_list .tit_lbl { width: 20%; }
+	.app_list .app_content {
+		width: 79%;
+		float: right;
+		border: 1px solid #ccc;
+	}
+	.btn_line {text-align: center;}
+	.appForm textarea {height: 230px;}
+	/* //글쓰기 폼 스타일 */
 }
