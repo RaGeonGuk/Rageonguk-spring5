@@ -62,7 +62,7 @@ $(document).ready(function() {
 				<ul class="app_list">
 					<li class="clear">
 						<label for="user_id_lbl" class="tit_lbl pilsoo_item">사용자ID</label>
-						<div class="app_content"><input type="text" name="user_ids" class="w100p" id="user_id_lbl" placeholder="사용자ID를 입력해주세요" required/></div>
+						<div class="app_content"><input type="text" name="user_id" class="w100p" id="user_id_lbl" placeholder="사용자ID를 입력해주세요" required/></div>
 					</li>
 					<li class="clear">
 						<label for="password_lbl" class="tit_lbl pilsoo_item">암호</label>
@@ -127,10 +127,11 @@ $(document).ready(function(){
 		if($(this).val() != "") {
 			$.ajax({
 				type:"get",
-				url:"/id_check?user_id="+$(this).val(),
-				dataType:"text",
+				url:"/id_check_2010?user_id="+$(this).val(),
+				dataType:"json",//전송받는 데이터형
 				success:function(result) {
-					if(result == 0) {//중복ID가 존재하지 않으면
+					//alert(result.memberCnt);//JSON.stringify(result)
+					if(result.memberCnt == 0) {//중복ID가 존재하지 않으면
 						$("#btn_insert").attr("disabled",false);
 						$("#btn_insert").css("opacity","1");
 						$("#msg").remove();
