@@ -69,14 +69,15 @@ public class HomeController {
 	//게시물 수정 처리 POST 추가
 	@RequestMapping(value="/home/board/board_update",method=RequestMethod.POST)
 	public String board_update(HttpServletRequest request, @RequestParam("file")MultipartFile[] files,PageVO pageVO,BoardVO boardVO,RedirectAttributes rdat) throws Exception {
+		/* 아래 기능을 AOP로 구현합니다.1
 		//로그인한 세션ID와 게시물의 boardVO.writer사용자와 비교해서 같으면 계속,틀리면 멈춤
 		HttpSession session = request.getSession();
 		if(!boardVO.getWriter().equals(session.getAttribute("session_userid"))) {
-			
 			rdat.addFlashAttribute("msgError", "게시물은 본인글만 수정 가능합니다.");
-			return "redirect:/home/board/board_view?bno="+boardVO.getBno()+"&page="+pageVO.getPage();//본인ID의 글이 아닐때 뷰페이지로 이동
+			//request객체에 이전페이지 URL("Referer")로 존재하고, 이URL을 이전페이지 이동으로 사용
+			return "redirect:"+request.getHeader("Referer");//본인ID의 글이 아닐때 뷰페이지로 이동
 		}//else로 묶을 필요가 없습니다.왜? 위 return을 만나면, 이후 실행이 않되고, 메서드가 종료됨.
-		
+		*/
 		//첨부파일 처리, delFiles만드는 이유는 첨부파일은 수정시, 기존파일 삭제 후 입력해야 하기 때문에
 		List<AttachVO> delFiles = boardService.readAttach(boardVO.getBno());
 		//폼에서 전송받은 첨부파일 files 가로배치로 만들기 위해서 배열변수 생성
@@ -125,15 +126,14 @@ public class HomeController {
 		//1개의 레코드만 서비스로 호출 모델로 보내줌 첨부파일은 세로데이터를 가로데이터변경후 boardVO담아서전송 
 		BoardVO boardVO = new BoardVO(); 
 		boardVO = boardService.readBoard(bno);
-		
+		/* 아래 기능을 AOP로 구현합니다.2
 		//로그인한 세션ID와 게시물의 boardVO.writer사용자와 비교해서 같으면 계속,틀리면 멈춤
 		HttpSession session = request.getSession();
 		if(!boardVO.getWriter().equals(session.getAttribute("session_userid"))) {
-			
 			rdat.addFlashAttribute("msgError", "게시물은 본인글만 수정 가능합니다.");
-			return "redirect:/home/board/board_view?bno="+boardVO.getBno()+"&page="+pageVO.getPage();//본인ID의 글이 아닐때 뷰페이지로 이동
+			return "redirect:"+request.getHeader("Referer");//본인ID의 글이 아닐때 뷰페이지로 이동
 		}//else로 묶을 필요가 없습니다.왜? 위 return을 만나면, 이후 실행이 않되고, 메서드가 종료됨.
-		
+		*/
 		//save_file_names, real_file_names 가상필드값을 채웁니다.
 		List<AttachVO> fileList = boardService.readAttach(bno);//세로데이터 생성
 		int index = 0;
@@ -152,15 +152,15 @@ public class HomeController {
 	//게시물 삭제 처리 호출 POST 추가
 	@RequestMapping(value="/home/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(HttpServletRequest request, @RequestParam("bno")Integer bno,RedirectAttributes rdat,PageVO pageVO) throws Exception {
+		/*아래 기능을 AOP로 구현합니다.3
 		BoardVO boardVO = boardService.readBoard(bno);//아래 조건때문에 추가
 		//로그인한 세션ID와 게시물의 boardVO.writer사용자와 비교해서 같으면 계속,틀리면 멈춤
 		HttpSession session = request.getSession();
 		if(!boardVO.getWriter().equals(session.getAttribute("session_userid"))) {
-			
 			rdat.addFlashAttribute("msgError", "게시물은 본인글만 삭제 가능합니다.");
-			return "redirect:/home/board/board_view?bno="+boardVO.getBno()+"&page="+pageVO.getPage();//본인ID의 글이 아닐때 뷰페이지로 이동
+			return "redirect:"+request.getHeader("Referer");//본인ID의 글이 아닐때 뷰페이지로 이동
 		}//else로 묶을 필요가 없습니다.왜? 위 return을 만나면, 이후 실행이 않되고, 메서드가 종료됨.
-		
+		*/
 		//부모테이블 삭제전 삭제할 파일들 변수로 임시저장(아래)
 		List<AttachVO> delFiles = boardService.readAttach(bno);//세로값
 		//테이블 1개 레코드 삭제처리
@@ -303,17 +303,39 @@ public class HomeController {
 		return "home/member/mypage";//.jsp생략
 	}
 	//사용자단 로그인 폼호출 GET, 로그인POST처리는 컨트롤러에서 하지않고 스프링시큐리티로 처리
-	@RequestMapping(value="/login_form", method=RequestMethod.GET)
-	public String login_form() throws Exception {
-		
-		return "home/login";//.jsp생략
-	}
+	//네아로 로그인때문에 LoginController클래스로 분리해서 사용합니다. 그래서 아래는 주석처리
+//	@RequestMapping(value="/login_form", method=RequestMethod.GET)
+//	public String login_form() throws Exception {
+//
+//		return "home/login";//.jsp생략
+//	}
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String homepage(Model model) { //콜백메스드,자동실행됨.
-		String jspVar = "@서비스(DB)에서 처리한 결과";
-		model.addAttribute("jspObject", jspVar);
-		logger.info("디버그 스프링로고사용: " + jspVar);//System.out 대신 logger 객체를 사용
+	public String homepage(Model model) throws Exception { //콜백메스드,자동실행됨.
+//		String jspVar = "@서비스(DB)에서 처리한 결과";
+//		model.addAttribute("jspObject", jspVar);
+//		logger.info("디버그 스프링로고사용: " + jspVar);//System.out 대신 logger 객체를 사용
 		//home.jsp파일로 자료를 전송(스프링)하는 기능= model인터페이스 객체(스프링이처리)에 내용만 채우면됨
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);//필수값1
+		pageVO.setQueryPerPageNum(3);//겔러리3개
+		pageVO.setBoard_type("gallery");
+		//첨부파일 save_file_names 배열변수 값을 지정
+		List<BoardVO> latestGallery = boardService.selectBoard(pageVO);
+		
+		for(BoardVO boardVO:latestGallery) {//리스트형 객체를 1개씩 뽑아서 1개 레코드에 입력을 반복
+			List<AttachVO> listAttachVO = boardService.readAttach(boardVO.getBno());
+			if(listAttachVO.size() > 0) {
+				String[] save_file_names = new String[listAttachVO.size()];
+				save_file_names[0] = listAttachVO.get(0).getSave_file_name();
+				boardVO.setSave_file_names(save_file_names);
+			}
+		}
+		
+		model.addAttribute("latestGallery", latestGallery);//겔러리 최근게시물
+		
+		pageVO.setQueryPerPageNum(5);//공지사항5개,보드타입 필요(세션으로 처리않됨)
+		pageVO.setBoard_type("notice");
+		model.addAttribute("latestNotice", boardService.selectBoard(pageVO));//공지사항 최근게시물
 		return "home/index";//확장자가 생략 .jsp가 생략되어 있음.
 	}
 	
