@@ -47,8 +47,9 @@
             <ul class="users-list clearfix">
             <!-- 최신 등록한 회원정보 4개출력-반복문사용  -->
             <c:forEach var="memberVO" items="${latestMembers}">
-              <li style="cursor: pointer;" onclick="location.replace('/admin/member/member_view?user_id=${memberVO.user_id}')">
-                <img src="/resources/admin/dist/img/default-150x150.png" alt="User Image">
+              <li style="cursor: pointer;" onclick="location.replace('/admin/member/member_view?user_id=${memberVO.user_id}&page=1')">
+                <!-- <img src="" alt="User Image"> 아래 onerror은 엑박일때 대신 보여줄 이미지를 지정 -->
+                <img style="width:120px;height:120px;" onerror="this.src='/resources/admin/dist/img/default-150x150.png'" src="/resources/profile/${memberVO.user_id}.png">
                 <a class="users-list-name" href="#">${memberVO.user_name}</a>
                 <span class="users-list-date">
                 <fmt:formatDate pattern="yyyy-MM-dd hh:MM:ss" value="${memberVO.reg_date}"/>
@@ -62,16 +63,16 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer text-center">
-            <a href="javascript:alert('회원목록으로이동-준비중');">View All Users</a>
+            <a href="/admin/member/member_list">View All Users</a>
           </div>
           <!-- /.card-footer -->
         </div>
         <!-- //최근 등록한 회원목록 -->
-        <!-- 최근게시물리스트(공지사항+겔러리+QnA게시판) 현재 2개의 게시판이 나오게 됨.--> 
-        <!-- include와 import의 차이점: include는 소스를 조립 후 컴파일, import는 개발파일을 컴파일 후 조립 -->
-       <c:forEach var="boardTypeVO" items="${listBoardTypeVO}" >
-       		<c:import url="/admin/latest/latest_board?board_type=${boardTypeVO.board_type}&board_name=${boardTypeVO.board_name}" />
-       </c:forEach>
+        <!-- 최근게시물리스트(공지사항+겔러리+QnA게시판) 현재 2개의 게시판이 나오게 됨 -->
+        <!-- include와 import의 차이점: include는 소스를 조립 후 컴파일, import는 개발파일을 컴파일후 조립 -->
+        <c:forEach var="boardTypeVO" items="${listBoardTypeVO}">
+        	<c:import url="/admin/latest/latest_board?board_type=${boardTypeVO.board_type}&board_name=${boardTypeVO.board_name}" />
+        </c:forEach>        
         <!-- //최근게시물리스트 -->
       </div><!-- /.container-fluid -->
     </section>
