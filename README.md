@@ -18,11 +18,11 @@
 - 사용자단 게시판 CRUD 처리.
 - 헤로쿠 클라우드에 배포(9.클라우드 배포CI/CD구현-개발트렌드).깃(최신소스)-연동-헤로쿠(배포)
 - 사용자단 댓글 CRUD 처리.
-- 문서작업(제출용)
-- [실습시간이 가능하다면: 관리자대시보드에서 회원ID 이미지업로드 및 보이기 처리)]
-- [실습시간이 가능하다면: 사용자단 네이버아이디로그인 처리(10.외부RestAPI구현).]
-- [실습시간이 가능하다면: 알고리즘 다이어그램기반으로 자바코딩테스트]
+- 문서작업(제출용)OK.
+- 관리자대시보드에서 회원ID 이미지업로드 및 보이기 처리OK.
+- 사용자단 네이버아이디로그인 처리(10.외부RestAPI구현)OK.
 - 헤로쿠 클라우드에 배포할때, 매퍼폴더의 mysql폴더내의 쿼리에 now()를 date_add(now(3), interval 9 HOUR) 변경예정.(이유는 DB서버 타임존 미국이기 때문에)
+- 알고리즘 다이어그램기반으로 자바 코딩테스트 작업시작
 #### 작업일정.
 - 7월9일(금) 모두 줌으로 수업
 - 7월12(월) 학원이사로 휴강
@@ -38,20 +38,300 @@
 - 현업에서는 위 3가지 템플릿중 1가지는 항상 사용하기 때문에 대표적으로 타일즈를 실습할 예정입니다.
 - 위 3가지 구조는 비슷하기 때문에 1가지만 아셔도 다른 jsp템플릿 적용시 응용가능합니다.
 - 알고리즘 다이어그램기반으로 자바코딩테스트예정(깃 it강의저장소자료이용).
-
+- 코딩테스트 3가지: 1. dev구름처럼 온라인 코딩테스트.(디버그)
+- 2. 회사에서 PC제공해서 PC의 이클립스에서 코딩테스트.(디버그)
+- 3. 회사에서 종이에 코딩테스트: 수두코딩(Pseudo-code)로 로직만 검사하는 테스트.(디버그X)
+- 문제를 분석 -> 다이어그램만들기 -> 자바코딩 테스트
+- 10개 다이어그램 -> 자바코딩 테스트
 #### 데이터의 이동
-- VO 클래스의 이동: 매퍼쿼리 <-> DAO <-> Service <-> Controller <-> jsp
+- VO클래스의 이동: 매퍼쿼리<->DAO(M)<->Service<->Controller(C)<->jsp(V)
 
-#### 변수값(데이터) ReplyVO 데이터 클래스를 기준으로
--JSON 데이터: 크롬에서 부메랑으로 List<ReaplyVO> 형태의 데이터 확인
-- JSON 데이터 구조: ArrayList(표) + HashMap(key:
+#### 변수값(데이터) ReplyVO데이터클래스를 기준으로
+- JSON데이터: 크롬에서 부메랑으로 List<ReaplyVO>형태의 데이터확인
+- JSON데이터구조: ArrayList(표) + HashMap(Key:Value)
+
+```
+{
+    "rno": 4,
+    "reply_text": "부메랑댓글 입력테스트",
+    "replyer": "admin",
+    "reg_date": 1626310996371,
+    "update_date": 1626310996371,
+    "bno": 2
+},
+{
+    "rno": 3,
+    "reply_text": "부메랑댓글 입력테스트",
+    "replyer": "admin",
+    "reg_date": 1626310964420,
+    "update_date": 1626310964420,
+    "bno": 2
+}
+```
+- ArrayList데이터형:List<ReplyVO> replyList = new ArrayList<ReplyVO>();//DB쿼리결과
+- 위 ArrayList구조: List(인터페이스) > ArrayList(임플리먼트클래스-데이터클래스)
+- HashMap데이터형:Map<String,Object> mapData = new HashMap<String,Object>();
+- 위 HashMap구조: Map(인터페이스-메서드명) > HashMap(구현클래스)
+- Hash해시태그: 그물망(해시)=#=좌표(x,y)=(Key:Value)
+
+#### 20210720(화) 작업예정.
+- 코딩테스스 10번 마무리.
+- 코딩테스스 9번 부터 시작.
+- 코딩테스트 8,7,6,까지 마무리.
+- 8교시에 UI 구현 워드 문서 과제물 제출 전, 7교시에 확인 예정.
+
+#### 20210719(월) 작업예정.
+- 로도 번호가 올바른 번호인지 확인하는 코드작성코딩테스트 10번 소스 (아래) 작업중...
+
+```
+
+import java.util.Scanner;
+import java.util.Arrays;
+class Main {
+	public static boolean isValid(int[] Lotto, int n){
+		//조건 1,2,3 구현하는 코딩이 입력(아래)
+		if(n != 6) {
+			return false;// 현재 isValid메서드가 종료되면서, false를 번환합니다.
+		}
+		//조건1, 중복숫자 검사로직
+		for(int i=0;i<n;i++) {
+			if(Lotto[i] == Lotto[i+1]) {
+				return false; //중복숫자가 있으면, 현재 isValid 메서드를 종료하고 , false를 반호나합니다.
+			}
+		}
+		//조건2, 숫자범위는 1부터 45까지의 숫자만 인정이됨.
+		//조건3, 현재 로또번호가 오름차순 정렬로 되어있는지 확인하는로직
+		return true;
+	}
+	public static void main(String[] args) {
+		int n; //6개의 로또 번호 입력 받을 크기
+		int[] Lotto; //배열의 크기가 필요
+		boolean Real; //진짜 로또번호인지 확인 결과 참/거짓
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+		Lotto = new int[n];
+		for(int i =0;i<n;i++) {
+			Lotto[i]=sc.nextInt();
+		}
+		System.out.println("주운 로또 번호는 " +Arrays.toString(Lotto));
+		Real = isValid(Lotto, n);
+		if(Real ==true) {
+			System.out.println("주운 로또 번호는 진짜 입니다.");
+		} else{
+			System.out.println("주운 로또 번호는 가짜 입니다.");
+		}
+	}
+	
+}
+```
 
 
+- 10진수를 2진수로 변환 코딩테스트 05소스(아래)
+- 13 = 1101(2)
+- 13 - 10의자리 1, 1의자리 3
+- 1101 = 8421(자리수) 코드 = 2(3)자리는 1, 2(2) 자리는 1, 2(1)자리는0, 2(0)자리는 1
+- 모든수의 0승(제곱) = 1
 
-#### 20210715(목) 작업예정.
-- 문서작업(제출용)예정.(설명 후 작업시간 드릴 예정, 작업시간중 네아로 않되는 분 확인)
-- 관리자대시보드에서 회원ID 이미지업로드 및 보이기 처리예정.
+```
+
+import java.util.Scanner;
+import java.util.Arrays;
+class Main {
+	public static void main(String[] args) {
+		int[] Bin = new int[10];//배열크기가 10인 정수형 배열 변수 생성
+		int Dec; //키보드로 입력받을 십진수 저장공간
+		int idx = 0; // 반복문에 사용할 변수 선언  
+		int Mok,Nmg;// 몫과 나머지로 변수로 사용.
+		Scanner sc = new Scanner(System.in);
+		Dec = sc.nextInt();
+		while(true) {
+			Mok = (int) Dec/2;
+			Nmg = Dec - (Mok*2);// 나머지를 구하는 공식
+			Bin[idx] = Nmg;
+			idx = idx + 1;//idx++
+			if(Mok==0) {
+				break;
+			}else {
+				Dec = Mok;
+			}
+		}//반복문 끝
+		//역순 출력에 대한 로직 1101 -> 1011역순으로 출력
+		for (int i = idx-1; i>=0;i--) {
+			System.out.print(Bin[i] + " ");
+		}
+	}
+}
+
+```
+
+
+- ---------------------------------------------
+- 삽입정렬 코딩테스트04소스(아래). 오름차순에서 10번 반복 결과가 나옴
+- ----------------------------------------------
+
+- 버블정렬 오름차순 코딩테스스 03 소스(아래)
+
+- Temp 변수 사용 오름차순 정렬 코딩 테스트 02소스(아래). 지난주에 사용한 Arrays 클래스 sort 메서드 구성연습
+
+```
+import java.util.Scanner;
+import java.util.Arrays;//로직에서는 필요 없으나 디버그용으로 사용
+class Main {
+	public static void main(String[] args) {
+		int n; //정렬할 숫자의 개수 변수 생성
+		int[] Numbers; //배열변수 생성
+		int prev, next, Temp; //이전, 다음, 임시저장 변수 생성
+		Scanner sc = new Scanner(System.in); //스케너 클래스를 이용해서 바이트 단위(문자)로 키보드를 입력받음
+		n = sc.nextInt(); //키보드로 입력받는 내용을 변수 n에 입력합니다.
+		//System.out.println("키보드로 입력받은 변수값은 : " + n);
+		Numbers = new int[n];//배열변수의 크기 지정
+		for(int i=0;i<n;i++) {//키보드 정렬할 변수값을 입력 받습니다. Numbers[] 배열변수에...
+			Numbers[i]  = sc.nextInt();
+		}
+		//Arrays.sort(Numbers);
+		System.out.println("입력한 배열값은 "+ Arrays.toString(Numbers));
+		//여기서부터 소팅 로직 시작
+		for(prev=0;prev<(n-1);prev++){ //예, 5개 숫자를 입력하면, 4번 반복합니다.
+			//이유는  n-1번만 4번까지 비교할 다음 변수가 존재하기 때문에
+			for(next=(prev+1);next<n;next++){
+				if (Numbers[prev] > Numbers[next]) { //이전변수값이 더 크다면, 앞 뒤 변수값을 자리 바꿈합니다.
+					//위 if 조건의 부등호만 바꾸면 >오름차순, < 내림차순
+					Temp = Numbers[prev]; // 이전변수값이 저장
+					Numbers[prev] = Numbers[next];
+					Numbers[next] = Temp;
+				}
+				if(prev==0){
+					System.out.println(next + "번째 반복에서 나온 결과는 " + Arrays.toString(Numbers));
+				}
+			}
+			//System.out.println(prv + "번째 반복에서 나온 결과는" + Arrays.toString(Numbers));
+		}
+		//자리바꿈결과를 출력하는구문, Arrays 유틸클래스 사용하지않고, for문 사용
+		//인덱스 개수 5개, 0부터 시작하기 때문에 4까지가 인덱스 번호의 끝
+		for (int i=0;i<n;i++) {
+			System.out.print(Numbers[i]+" ");
+		}
+	}
+}
+```
+
+- 스위치 변수 사용 코딩 테스트 01 소스(아래)
+
+```
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int UNIT = 50000;//화폐의 최고단위 금액, 초기화폐단위 초기화
+		int NUM = 0;//입력금액나누기 단위금액 = 단위 화폐의 매수 변수 초기화
+		int SW = 0; //스위치(on/off) 변수 = 플래그(깃발)변수
+		int MONEY = Integer.parseInt(br.readLine());
+		while(true) { //좋은 방법은 아님 (무한으로 반복되기때문에) IoT쪽에서는 while(true)문으로 외부 데이터를 읽어 들입니다.
+			if(UNIT>=1) {
+				NUM = (int) MONEY/UNIT; // 화폐 매수는 0.5매수는 없기 때문에 정수로 형변환 합니다.
+				System.out.println(UNIT+" 원의 화폐매수는"+NUM);
+				//다음반복을 위해서 MONEY 변수값 조정, UNIT 변수값 조정
+				MONEY = MONEY-(UNIT*NUM);//277777-250000 = 25000 (1회전결과)
+				if(SW==0) {
+						UNIT = UNIT/5; // 5만원 -> 1만원으로 단위 변경(1회전 결과)
+						SW = 1; // 1회전 후 SW 스위치 변수값을 1로 변경
+				}else {
+						UNIT = UNIT/2; // 1만원 -> 5천원으로 단위 변경(1회전 결과)
+						SW = 0; // 2회전 후 SW 스위치 변수값을 0으로 변경
+				}
+			}else{
+				break;//while 반복문을 빠져나갑니다. 무한반복을 벗어나는 코드
+			}
+		}
+	}
+}
+```
+
+- 빅 O 시간 복잡도 구하기 : for문을 1개, Big O = N
+- 중복 for문이면, Big O = N^2
+- for (i=1, i=3, i++) { for ii=1, ii=3, ii++) {구현} }
+- 위 중복 for 문은 시간복잡도가 N^2 번 횟수
+- 프로그램의 성능을 측정하는 단위 빅 O(N^2) 번 횟수
+- 화폐매수구하기: 25,550원 입금금액 있다면,
+- 5만원짜리 지폐는 몇장인지,	= 5장
+- 1만원짜리 지폐는 몇장인지,	= 2장 
+- 5천원짜리 지폐는 몇장인지,	= 1장
+- 1천원짜리 지폐는 몇장인지,	= 2장
+- 500원짜리 동전은 몇개인지,	= 1개
+- 100원 동전은 몇개인지 		= 2개
+- 50원 동전은 몇개인지, 		= 1개
+- 10원, 5원, 1원			= 2개, 1개, 2개
+- 화폐 단위가 5만원부터 시작해서 입력금액/UNIT 1회 반복할때마다 UNIT 변경
+- 화폐 단위 (UNIT) 변수가 바뀌는 순서 로직(아래)
+- SW = 0 : 5만, 5천, 500원, 50원, 5원 = UNIT/5 //5만원부터 시작하고 5를 나누면 1만원(아래) 
+- SW = 1 : 1만, 1천, 100원, 10원 ,1원 = UNIT/2 끝(0.5원이란 화폐는 없기 때문에) // 그다음 1만원에서 2를 나누면 5천원(위)
+
+#### 20210716(금) 작업.
+- 수업전 헤로쿠에 배포 후 어제 작업한 결과 확인해 보겠습니다.-오후수업전 다시확인
 - jsp템플릿인 tiles(타일즈) 사용.
+- jsp템플릿인 tiles(타일즈), siteMesh(사이트메쉬), velocity(벨로시티) 등이 있습니다.
+- 현업에서는 위 3가지 템플릿중 1가지는 항상 사용하기 때문에 대표적으로 타일즈를 실습할 예정입니다.
+- 위 3가지 구조는 비슷하기 때문에 1가지만 아셔도 다른 jsp템플릿 적용시 응용가능합니다.
+- 타일즈역할: jsp템플릿이리고 하고, jsp구조(레이아웃)를 쳬계적으로 관리하는 모듈
+- include(header.jsp,footer.jsp) 를 대체 합니다.
+작업순서:
+- 1. pom.xml 타일즈 모듈 라이브러리 추가OK.
+- 2. tiles-context.xml 타일즈설정파일 추가OK.
+- 3. servlet-context.xml 에서 타일즈용 뷰리졸버 빈 추가OK.
+- 4. 위 설정파일을 기준으로 tiles폴더 및 layouts폴더 생성 후 layout.jsp생성OK.
+- 5. 기존 home/include 폴더의 header.jsp 와 footer.jsp 파일 복사해서 그대로 사용OK.
+- 6. 기존 home/index.jsp 파일 그대로 복사해서 tiles/index.jsp로 복사해서 @include 삭제만 처리OK.
+- 7. HomeController 에서 기존 @RequestMapping 복사해서 타일즈용으로 추가OK.
+- -------------------------------------------------------
+- 알고리즘 다이어그램기반으로 자바코딩테스트(깃 it강의저장소자료이용)OK.
+
+```
+import java.io.BufferedReader; //키보드 입력 때문에 필요
+import java.io.InputStreamReader; //기보드 입력 때문에 필요
+import java.util.Arrays; //오름차순 정렬때문에 필요
+class Main {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int N;
+		int[] questions;
+		N = Integer.parseInt(br.readLine());//키보드로 입력받는 커서가 나옴
+		//System.out.println("키보드로 입력한 값은 " + N);
+		questions = new int[N];//키보드로 입력한 값N으로 난이도배열의 크기를 지정합니다.
+		String str = br.readLine();//키보드 입력받는 커서가 나옴. 단, 숫자사이에 공백을 집어넣습니다.
+		//문자열로 입력 받은 문자를 questions 정수형배열변수에 하나씩 입력합니다.
+		String[] strArray = str.split(" ");
+		for(int i=0;i<N;i++) {
+			questions[i] = Integer.parseInt(strArray[i]);
+		}
+		//System.out.println("난이도 입력값 " + Arrays.toString(questions));
+		Arrays.sort(questions);//입력받은 questions배열을 오름차순 정렬
+		int count = 0;
+		int before = questions[0];
+		//int current = 0;
+		for(int current:questions) {
+			if(before != current) {
+				count = count + 1;
+			}
+			if(count == 2) { break; }
+			before = current;
+		}
+		if(count >= 2) {
+			System.out.println("YES");
+		} else {
+			System.out.println("NO");
+		}
+	}
+}
+```
+
+#### 20210715(목) 작업.
+- 데이터의 이동과 변수값처리 2가지만 아시면, 개발자로 일할 수 있음.
+- 문서작업(제출용)확인OK.(설명 후 작업시간 드릴 예정, 작업시간중 네아로 않되는 분 확인)
+- 관리자대시보드에서 회원ID 이미지업로드 및 보이기 처리예정.
+- C:\egov\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\kimilguk-spring5\resources\profile
+- URL로 접근할때는 http://localhost:8080/resources/profile/admin22
 
 #### 20210714(수) 작업.
 - 네아로 로그인 부분 마무리.: 외부API이고, 네이버 개발자들이 만든내용.
